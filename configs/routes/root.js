@@ -1,5 +1,3 @@
-module.exports = function(app) {
-  app.all('/', function(req, res) {
-    res.render('index', { title: 'Express' });
-  });
+module.exports = function(app, controllers) {
+  app.all('/', controllers.pages.index);
 };
