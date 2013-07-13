@@ -8,13 +8,17 @@ var express = require('express'),
 var app = express();
 
 var routes = require('./configs/routes'),
+    storages = require('./configs/storages'),
     configAll = require('./configs/environments/all'),
     configEnv = require('./configs/environments/' + app.get('env'));
 
-// all environments
+// Setup storages
+storages.init(app, __dirname);
+
+// Config for all environments
 configAll(app, __dirname);
 
-// environment specified
+// Config for specific environment
 configEnv(app, __dirname);
 
 // Setup routes
