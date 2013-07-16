@@ -3,54 +3,44 @@ var passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 
 var findById = exports.findById = function(id, done) {
-  models.users.findOne({ '_id': id }, function(err, user) {
-    if(err) {
-      return done(err);
-    }
-
-    if (user) {
-      return done(null, user);
-    } else {
-      return done(new Error('Invalid user id'));
-    }
-  });
+  models.users.findOne({ '_id': id }, done);
 };
 
-var findByUsername = exports.findByUsername = function(username, done) {
-  models.users.findOne({ 'uname': username }, function(err, user) {
-    if(err) {
-      return done(err);
-    }
+var findByEmail = exports.findByEmail = function(email, done) {
+  models.users.findOne({ 'email': email }, done);
+};
 
-    if (user) {
-      return done(null, user);
-    } else {
-      return done(new Error('Invalid username'));
-    }
+var createNewUser = exports.createNewUser = function(email, password, done) {
+  findByEmail(email, function(err, user) {
+    if(err) { return done(err); }
+    if(user) { return done(new Error('Account exists for ' + email)); }
+
+    // Create new user
+    user = new models.users({
+      'email': email,
+      'pass': pass
+    });
+    user.save(done);
   });
 };
 
 exports.init = function() {
   // Use the LocalStrategy within Passport.
-  //   Strategies in passport require a `verify` function, which accept
-  //   credentials (in this case, a username and password), and invoke a callback
-  //   with a user object.  In the real world, this would query a database;
-  //   however, in this example we are using a baked-in set of users.
-  passport.use(new LocalStrategy(
-    function(username, password, done) {
+  passport.use(new LocalStrategy({
+      usernameField: 'email'
+    },
+    function(email, password, done) {
       // asynchronous verification, for effect...
       process.nextTick(function () {
-        // Find the user by username.  If there is no user with the given
-        // username, or the password is not correct, set the user to `false` to
+        // Find the user by email.  If there is no user with the given
+        // email, or the password is not correct, set the user to `false` to
         // indicate failure and set a flash message.  Otherwise, return the
         // authenticated `user`.
-        findByUsername(username, function(err, user) {
-          console.log('Authenticating: ' + username + ' Err: ' + err + ' User: ' + user);
-          if (err) { return done(err, false, { message: 'Error: ' + err }); }
-          if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+        findByEmail(email, function(err, user) {
+          if (err) { return done(err, false, { message: err }); }
+          if (!user) { return done(null, false, { message: 'Unknown Email ' + email }); }
           if (user.pass != password) { return done(null, false, { message: 'Invalid password' }); }
-          console.log('User authenticated.');
-          return done(null, user);
+          return done(null, user, { message: 'Welcome ' + email });
         });
       });
     }
