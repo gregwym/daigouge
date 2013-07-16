@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  if user
+    p Hi, #{user.email}
+  .flash
+    if success && success.length > 0
+      p= success
+    else if error && error.length > 0
+      p= error
+  h1 Login
+  form(action="", method="POST")
+    input(type="text", name="email", placeholder="Email")
+    input(type="password", name="password", placeholder="Password")
+    input(type="submit")
+  h1 Register
+  form(action="local/new", method="POST")
+    input(type="text", name="email", placeholder="Email")
+    input(type="password", name="password", placeholder="Password")
+    input(type="submit")
+  h1 Logout
+  form(action="logout")
+    input(type="submit", value="Logout")
