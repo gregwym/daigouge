@@ -9,6 +9,7 @@ var app = express();
 
 var routes = require('./configs/routes'),
     storages = require('./configs/storages'),
+    passport = require('./app/passport'),
     configAll = require('./configs/environments/all'),
     configEnv = require('./configs/environments/' + app.get('env'));
 
@@ -20,6 +21,9 @@ configAll(app, __dirname);
 
 // Config for specific environment
 configEnv(app, __dirname);
+
+// Config passport
+passport.init(app, __dirname);
 
 // Setup routes
 routes.init(app, __dirname);

@@ -1,4 +1,6 @@
 var express = require('express'),
+    passport = require('passport'),
+    flash = require('connect-flash'),
     MongoStore = require('connect-mongo')(express),
     mongoose = require('mongoose');
 
@@ -20,5 +22,8 @@ module.exports = function(app, basedir) {
       db: mongoose.connection.db
     })
   }));
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(flash());
   app.use(app.router);
 };
