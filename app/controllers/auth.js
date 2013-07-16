@@ -15,16 +15,16 @@ exports.local = function(req, res) {
 
 exports.local.register = function(req, res) {
   var email = req.body.email,
-      pass = req.body.password;
+      password = req.body.password;
 
   // Both field are required
-  if(!email || !pass) {
+  if(!email || !password) {
     req.flash('error', 'Please fill both Email and Password');
     return res.redirect('/auth/local');
   }
 
   // Try create a new user, flash 'error' message if failed.
-  localPassport.createNewUser(email, pass, function(err, user) {
+  localPassport.createNewUser(email, password, function(err, user) {
     if(err) {
       req.flash('error', 'Fail to register - ' + err);
       return res.redirect('/auth/local');

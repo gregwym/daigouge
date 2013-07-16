@@ -18,7 +18,7 @@ var createNewUser = exports.createNewUser = function(email, password, done) {
     // Create new user
     user = new models.users({
       'email': email,
-      'pass': pass
+      'pass': password
     });
     user.save(done);
   });
