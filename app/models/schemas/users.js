@@ -71,4 +71,8 @@ users.statics.create = function(email, password, done) {
   });
 };
 
+users.methods.validPass = function(pass) {
+  return pass === this.pass;
+};
+
 module.exports = users;

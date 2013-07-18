@@ -17,7 +17,7 @@ exports.init = function() {
         models.users.findByEmail(email, function(err, user) {
           if (err) { return done(err, false, { message: err }); }
           if (!user) { return done(null, false, { message: 'Unknown Email ' + email }); }
-          if (user.pass != password) { return done(null, false, { message: 'Invalid password' }); }
+          if (!user.validPass(password)) { return done(null, false, { message: 'Invalid password' }); }
           return done(null, user, { message: 'Welcome ' + email });
         });
       });
