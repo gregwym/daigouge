@@ -1,4 +1,5 @@
 var passport = require('passport'),
+    models = require('../models'),
     local = require('./local');
 
 exports.init = function() {
@@ -11,7 +12,7 @@ exports.init = function() {
 
   passport.deserializeUser(function(id, done) {
     // Find the user in db
-    return local.findById(id, done);
+    return models.users.findById(id, done);
   });
 
   local.init();

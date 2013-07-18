@@ -1,4 +1,4 @@
-var localPassport = require('../passport/local');
+var models = require('../models');
 
 exports.logout = function(req, res) {
   req.logout();
@@ -24,7 +24,7 @@ exports.local.register = function(req, res) {
   }
 
   // Try create a new user, flash 'error' message if failed.
-  localPassport.createNewUser(email, password, function(err, user) {
+  models.users.create(email, password, function(err, user) {
     if(err) {
       req.flash('error', 'Fail to register - ' + err);
       return res.redirect('/auth/local');
