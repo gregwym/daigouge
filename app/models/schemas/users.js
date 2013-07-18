@@ -1,9 +1,21 @@
 var mongoose = require('mongoose');
 
 var users = mongoose.Schema({
-  email: String,
-  pass: String
+  email: {
+    type: String,
+    match: /^[\w\d\._+-]+@(\w+\.)+\w+$/,
+    lowercase: true,
+    required: true,
+    unique: true
+  },
+  pass: { type: String, required: true }
 });
+
+var ValidationErrors = {
+  REQUIRED: 'required',
+  NOTVALID: 'notvalid',
+  REGEX: 'regexp'
+};
 
 users.statics.findByEmail = function(email, done) {
   this.findOne({ 'email': email }, done);
@@ -14,17 +26,48 @@ users.statics.findById = function(id, done) {
 };
 
 users.statics.create = function(email, password, done) {
-  var self = this;
-  this.findByEmail(email, function(err, user) {
-    if(err) { return done(err); }
-    if(user) { return done(new Error('Account exists for ' + email)); }
+  // Create new user
+  var user = new this({
+    'email': email,
+    'pass': password
+  });
+  // Save it
+  user.save(function(err, user) {
+    // If failed to save, find out the error and return proper message.
+    var message = '';
+    if (err && err.name === 'MongoError') {
+      // Handle mongodb error
+      if (err.err.indexOf('duplicate') !== -1) {
+        message += 'Account "' + email + '" already exists.';
+      } else {
+        message += err;
+      }
+      return done(new Error(message));
+    } else if (err && err.errors) {
+      // Handle validation errors
+      for (var errName in err.errors) {
+        var error = err.errors[errName];
+        switch(error.type) {
+          case ValidationErrors.REQUIRED:
+            message += '"' + error.path + '" cannot be empty. ';
+            break;
+          case ValidationErrors.NOTVALID:
+            message += '"' + error.path + '" is not valid. ';
+            break;
+          case ValidationErrors.REGEX:
+            message += '"' + error.value + '" is not a valid ' + error.path + '. ';
+            break;
+          default:
+            break;
+        }
+      }
+      return done(new Error(message));
+    } else if (err) {
+      return done(err);
+    }
 
-    // Create new user
-    user = new self({
-      'email': email,
-      'pass': password
-    });
-    user.save(done);
+    // Otherwise, everything good.
+    return done(null, user);
   });
 };
 
