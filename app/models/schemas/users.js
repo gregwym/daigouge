@@ -8,7 +8,8 @@ var users = mongoose.Schema({
     required: true,
     unique: true
   },
-  pass: { type: String, required: true }
+  pass: { type: String, required: true },
+  reg: { type: Date, default: Date.now }
 });
 
 var ValidationErrors = {
