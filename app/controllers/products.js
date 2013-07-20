@@ -1,29 +1,52 @@
 var models = require('../models');
 
 exports.index = function(req, res){
-  res.send('product index');
+  models.products.find(function(err, products) {
+    if (err) { return res.status(500).json(err); }
+    return res.json(products);
+  });
 };
 
 exports.new = function(req, res){
-  res.send('new product');
+  res.render('products/new');
 };
 
 exports.create = function(req, res){
-  res.send('create product');
+  var product = new models.products(req.body || req.query);
+  product.save(function(err, product) {
+    if (err) { return res.status(500).json(err); }
+    return res.json(product);
+  });
 };
 
 exports.show = function(req, res){
-  res.send('show product ' + req.params.product);
+  models.products.findOne({ '_id': req.params.product }, function(err, product) {
+    if (err) { return res.status(500).json(err); }
+    return res.json(product);
+  });
 };
 
 exports.edit = function(req, res){
-  res.send('edit product ' + req.params.product);
+  models.products.findOne({ '_id': req.params.product }, function(err, product) {
+    if (err) { return res.status(500).json(err); }
+    return res.render('products/edit', {
+      product: product
+    });
+  });
 };
 
 exports.update = function(req, res){
-  res.send('update product ' + req.params.product);
+   models.products.findOneAndUpdate({ '_id': req.params.product },
+                          req.body || req.query,
+                          function(err, product) {
+    if (err) { return res.status(500).json(err); }
+    return res.json(product);
+  });
 };
 
 exports.destroy = function(req, res){
-  res.send('destroy product ' + req.params.product);
+  models.products.findOneAndRemove({ '_id': req.params.product }, function(err, product) {
+    if (err) { return res.status(500).json(err); }
+    return res.json(product);
+  });
 };
