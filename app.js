@@ -4,6 +4,7 @@
  */
 
 var express = require('express'),
+    Resource = require('express-resource'),
     http = require('http');
 var app = express();
 
