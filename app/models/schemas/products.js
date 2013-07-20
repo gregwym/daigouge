@@ -33,4 +33,12 @@ var products = mongoose.Schema({
   }]
 });
 
+products.methods.price = function(type) {
+  for (var i = 0; i < this.prices.length; i++) {
+    var price = this.prices[i];
+    if (price.type === type) { return price; }
+  }
+  return null;
+};
+
 module.exports = products;
