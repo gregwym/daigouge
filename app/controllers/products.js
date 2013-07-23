@@ -1,10 +1,14 @@
 var models = require('../models');
 
-exports.index = function(req, res){
-  models.products.find(function(err, products) {
+var resultCallback = function(req, res) {
+  return function(err, value) {
     if (err) { return res.status(500).json(err); }
-    return res.json(products);
-  });
+    return res.json(value);
+  };
+};
+
+exports.index = function(req, res){
+  models.products.find(resultCallback(req, res));
 };
 
 exports.new = function(req, res){
@@ -13,21 +17,17 @@ exports.new = function(req, res){
 
 exports.create = function(req, res){
   var product = new models.products(req.body || req.query);
-  product.save(function(err, product) {
-    if (err) { return res.status(500).json(err); }
-    return res.json(product);
-  });
+  product.save(resultCallback(req, res));
 };
 
 exports.show = function(req, res){
-  models.products.findOne({ '_id': req.params.product }, function(err, product) {
-    if (err) { return res.status(500).json(err); }
-    return res.json(product);
-  });
+  models.products.findOne({ '_id': req.params.product },
+                          resultCallback(req, res));
 };
 
 exports.edit = function(req, res){
-  models.products.findOne({ '_id': req.params.product }, function(err, product) {
+  models.products.findOne({ '_id': req.params.product },
+                          function(err, product) {
     if (err) { return res.status(500).json(err); }
     return res.render('products/edit', {
       product: product
@@ -36,17 +36,14 @@ exports.edit = function(req, res){
 };
 
 exports.update = function(req, res){
-   models.products.findOneAndUpdate({ '_id': req.params.product },
-                          req.body || req.query,
-                          function(err, product) {
-    if (err) { return res.status(500).json(err); }
-    return res.json(product);
-  });
+  var newProduct = req.body;
+  req.body.date.c = null;
+  models.products.findOneAndUpdate({ '_id': req.params.product },
+                                   req.body || req.query,
+                                   resultCallback(req, res));
 };
 
 exports.destroy = function(req, res){
-  models.products.findOneAndRemove({ '_id': req.params.product }, function(err, product) {
-    if (err) { return res.status(500).json(err); }
-    return res.json(product);
-  });
+  models.products.findOneAndRemove({ '_id': req.params.product },
+                                   resultCallback(req, res));
 };
