@@ -1,1 +1,1 @@
-web: node app
+web: NODE_PATH=app node app

@@ -8,11 +8,11 @@ var express = require('express'),
     http = require('http');
 var app = express();
 
-var routes = require('./configs/routes'),
-    storages = require('./configs/storages'),
-    passport = require('./app/passport'),
-    configAll = require('./configs/environments/all'),
-    configEnv = require('./configs/environments/' + app.get('env'));
+var routes = require('configs/routes'),
+    storages = require('configs/storages'),
+    passport = require('configs/passport'),
+    configAll = require('configs/environments/all'),
+    configEnv = require('configs/environments/' + app.get('env'));
 
 // Setup storages
 storages.init(app, __dirname);

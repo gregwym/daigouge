@@ -1,4 +1,4 @@
-var models = require('../models');
+var models = require('models');
 
 exports.logout = function(req, res) {
   req.logout();

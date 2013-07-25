@@ -1,5 +1,5 @@
 var passport = require('passport'),
-    models = require('../models'),
+    models = require('models'),
     local = require('./local');
 
 exports.init = function() {

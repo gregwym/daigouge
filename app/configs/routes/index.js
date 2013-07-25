@@ -1,6 +1,6 @@
 // Initialize with all route definitions
 exports.init = function(app, basedir) {
-  var controllers = require(basedir + '/app/controllers');
+  var controllers = require('controllers');
 
   require('fs').readdirSync(__dirname + '/').forEach(function(file) {
     if (file.match(/.+\.js/g) !== null && file !== 'index.js') {

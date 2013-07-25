@@ -1,4 +1,4 @@
-var models = require('../models');
+var models = require('models');
 
 var resultCallback = function(req, res) {
   return function(err, value) {
