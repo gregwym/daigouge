@@ -7,6 +7,22 @@ var mongoose = require('mongoose');
 var priceTypes = 'reg sale org'.split(' ');
 var currencies = 'CAD$ US$ RMB¥'.split(' ');
 
+var productPrice = mongoose.Schema({
+  value: { type: Number, required: true },  // Price value
+  type: {                                   // Price type
+    type: String,
+    enum: priceTypes,
+    default: priceTypes[0],
+    required: true
+  },
+  cur: {                                    // Price currency (optional)
+    type: String,
+    enum: currencies
+  }
+}, {
+  _id: false
+});
+
 var products = mongoose.Schema({
   name: { type: String, required: true },   // Product name
   date: {                                   // Associated dates
@@ -18,19 +34,7 @@ var products = mongoose.Schema({
     match: /^https{0,1}:\/\/.+/,
     required: true
   },
-  prices: [{                                // Associated prices
-    value: { type: Number, required: true },  // Price value
-    type: {                                   // Price type
-      type: String,
-      enum: priceTypes,
-      default: priceTypes[0],
-      required: true
-    },
-    cur: {                                    // Price currency (optional)
-      type: String,
-      enum: currencies
-    }
-  }]
+  prices: [productPrice]                    // Associated prices
 });
 
 products.methods.price = function(type) {

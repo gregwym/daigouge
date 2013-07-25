@@ -36,8 +36,6 @@ exports.edit = function(req, res){
 };
 
 exports.update = function(req, res){
-  var newProduct = req.body;
-  req.body.date.c = null;
   models.products.findOneAndUpdate({ '_id': req.params.product },
                                    req.body || req.query,
                                    resultCallback(req, res));
