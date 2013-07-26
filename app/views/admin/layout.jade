@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  .top
+    h1 Admin Control Panel - #{page}
+    .user-info Hi, #{user.email}
+    .nav
+      ul.nav-list
+        li.nav-item
+          a(href="/admin/products") Products
+        li.nav-item
+          a(href="/admin/orders") Orders
+        li.nav-item
+          a(href="/admin/users") Users
+  .center
+    block center

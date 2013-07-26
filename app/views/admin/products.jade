@@ -1,0 +1,8 @@
+extends layout
+
+block center
+  if products
+    for product in products
+      p= product
+  else
+    p There is no products
