@@ -29,4 +29,5 @@ module.exports = function(app, basedir) {
   // Mount
   app.use(require('root'));
   app.use('/auth', require('auth'));
+  app.use('/products', require('products'));
 };
