@@ -30,4 +30,5 @@ module.exports = function(app, basedir) {
   app.use(require('root'));
   app.use('/auth', require('auth'));
   app.use('/products', require('products'));
+  app.use('/orders', require('orders'));
 };
