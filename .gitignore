@@ -1,3 +1,4 @@
+// General
 lib-cov
 *.seed
 *.log
@@ -10,6 +11,17 @@ lib-cov
 pids
 logs
 results
-node_modules
+.DS_Store
 
+// Files
 npm-debug.log
+
+// Directories
+node_modules
+components
+build
+.c9revisions
+
+// Directory Contents
+public/**
+build/**

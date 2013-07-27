@@ -17,6 +17,8 @@
   },
   "private": true,
   "scripts": {
+    "preinstall": "node install -g component",
+    "install": "make",
     "start": "NODE_PATH=app node app.js"
   },
   "dependencies": {
