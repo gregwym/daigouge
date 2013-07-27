@@ -12,6 +12,7 @@ module.exports = function(app, basedir) {
   // Config middleware invocation sequence
   app.use(express.favicon());
   app.use(express.static(basedir + '/public'));
+  app.use(express.static(basedir + '/build'));
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
