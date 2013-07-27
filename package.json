@@ -17,11 +17,11 @@
   },
   "private": true,
   "scripts": {
-    "install": "npm install -g component; make build",
+    "install": "make build",
     "start": "NODE_PATH=app node app.js"
   },
   "dependencies": {
-    "npm": "1.2.x",
+    "component": "0.17.x",
     "express": "3.3.x",
     "express-resource": "1.x",
     "jade": "0.32.x",
