@@ -25,7 +25,6 @@
     "debug": "0.7.x",
     "express": "3.3.x",
     "express-expose": "0.3.x",
-    "express-resource": "1.x",
     "jade": "0.32.x",
     "mongoose": "3.6.x",
     "connect-mongo": "0.3.x",
