@@ -1,0 +1,10 @@
+{
+  "name": "daigouge",
+  "version": "0.0.1",
+  "repo": "gregwym/daigouge",
+  "paths": [
+    "client"
+  ],
+  "local": [
+  ]
+}
