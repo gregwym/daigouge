@@ -1,0 +1,15 @@
+{
+  "name": "boot",
+  "repo": "gregwym/daigouge-boot",
+  "dependencies": {
+  },
+  "development": {},
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+    "style.css"
+  ],
+  "local": [
+  ]
+}
