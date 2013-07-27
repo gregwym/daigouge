@@ -10,8 +10,7 @@ var app = express();
 
 var storages = require('configs/storages'),
     passports = require('configs/passports'),
-    configAll = require('configs/environments/all'),
-    configEnv = require('configs/environments/' + app.get('env'));
+    envs = require('configs/environments');
 
 // Setup storages
 storages.init(app, __dirname);
@@ -20,10 +19,10 @@ storages.init(app, __dirname);
 passports.init(app, __dirname);
 
 // Config for all environments
-configAll(app, __dirname);
+envs.all(app, __dirname);
 
 // Config for specific environment
-configEnv(app, __dirname);
+envs[app.get('env')](app, __dirname);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
