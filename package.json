@@ -18,7 +18,7 @@
   "private": true,
   "scripts": {
     "install": "make build",
-    "start": "NODE_PATH=app node app.js"
+    "start": "NODE_PATH=server node app.js"
   },
   "dependencies": {
     "component": "0.17.x",

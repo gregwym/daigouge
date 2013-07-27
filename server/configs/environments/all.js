@@ -6,7 +6,7 @@ var express = require('express'),
 
 module.exports = function(app, basedir) {
   app.set('port', process.env.PORT || 3000);
-  app.set('views', basedir + '/app/views');
+  app.set('views', basedir + '/server/views');
   app.set('view engine', 'jade');
 
   // Config middleware invocation sequence
