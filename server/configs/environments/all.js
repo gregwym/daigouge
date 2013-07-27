@@ -27,5 +27,6 @@ module.exports = function(app, basedir) {
   app.use(flash());
 
   // Mount
+  app.use(require('root'));
   app.use('/auth', require('auth'));
 };
