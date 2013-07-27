@@ -1,0 +1,17 @@
+{
+  "name": "nav-item-view",
+  "version": "0.0.1",
+  "dependencies": {
+    "component/classes": "*",
+    "component/domify": "*",
+    "component/view": "*"
+  },
+  "development": {},
+  "scripts": [
+    "index.js",
+    "template.js"
+  ],
+  "styles": [
+    "style.css"
+  ]
+}

@@ -1,0 +1,15 @@
+.nav-item {
+  display: inline-block;
+}
+
+.nav-item a {
+  color: inherit;
+  text-decoration: none;
+  border-radius: 3px;
+  margin-right: 2px;
+  padding: 3px 5px;
+}
+
+.nav-item a:hover {
+  background: #eee;
+}

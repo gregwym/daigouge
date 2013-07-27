@@ -1,0 +1,1 @@
+module.exports = '<li class="nav-item">\n  <a class="nav-link" data-text="name" data-href="link"></a>\n</li>\n';
