@@ -17,7 +17,7 @@
   },
   "private": true,
   "scripts": {
-    "install": "npm install -g component; make",
+    "install": "npm install -g component; make build",
     "start": "NODE_PATH=app node app.js"
   },
   "dependencies": {
