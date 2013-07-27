@@ -1,4 +1,8 @@
-var models = require('models');
+var express = require('express'),
+    models = require('models');
+var app = module.exports = express();
+
+app.set('views', __dirname);
 
 var resultCallback = function(req, res) {
   return function(err, value) {
@@ -7,41 +11,42 @@ var resultCallback = function(req, res) {
   };
 };
 
-exports.index = function(req, res){
+app.get('/', function(req, res){
   models.products.find(resultCallback(req, res));
-};
+});
 
-exports.new = function(req, res){
-  res.render('products/new');
-};
+app.get('/new', function(req, res){
+  res.render('new');
+});
 
-exports.create = function(req, res){
+app.post('/', function(req, res){
   var product = new models.products(req.body || req.query);
   product.save(resultCallback(req, res));
-};
+});
 
-exports.show = function(req, res){
+app.get('/:product', function(req, res){
   models.products.findOne({ '_id': req.params.product },
                           resultCallback(req, res));
-};
+});
 
-exports.edit = function(req, res){
+app.get('/:product/edit', function(req, res){
   models.products.findOne({ '_id': req.params.product },
                           function(err, product) {
     if (err) { return res.status(500).json(err); }
-    return res.render('products/edit', {
+    return res.render('edit', {
       product: product
     });
   });
-};
+});
 
-exports.update = function(req, res){
+app.put('/:product', function(req, res){
   models.products.findOneAndUpdate({ '_id': req.params.product },
                                    req.body || req.query,
                                    resultCallback(req, res));
-};
+});
 
-exports.destroy = function(req, res){
+app.delete('/:product',  function(req, res){
   models.products.findOneAndRemove({ '_id': req.params.product },
                                    resultCallback(req, res));
-};
+});
+
