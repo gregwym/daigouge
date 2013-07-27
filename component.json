@@ -6,5 +6,6 @@
     "client"
   ],
   "local": [
+    "boot"
   ]
 }
