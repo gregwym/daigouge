@@ -25,5 +25,7 @@ module.exports = function(app, basedir) {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
-  app.use(app.router);
+
+  // Mount
+  app.use('/auth', require('auth'));
 };
