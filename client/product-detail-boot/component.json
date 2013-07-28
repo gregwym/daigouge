@@ -1,0 +1,15 @@
+{
+  "name": "product-detail-boot",
+  "version": "0.0.1",
+  "dependencies": {
+  },
+  "development": {},
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [
+  ],
+  "local": [
+    "product-detail-view"
+  ]
+}
