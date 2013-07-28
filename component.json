@@ -6,6 +6,7 @@
     "client"
   ],
   "local": [
-    "boot"
+    "boot",
+    "product-detail-boot"
   ]
 }
