@@ -3,5 +3,7 @@ extends ../views/layout
 block content
   .nav
   .products
+    for product in products
+      p: a(href='/products/#{product._id}') #{product.name}
   .products-json
     pre= products
