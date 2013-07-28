@@ -25,6 +25,5 @@ function NavView(items) {
   for (var i = 0; i < items.length; i++) {
     var itemView = new NavItemView(items[i]);
     navList.appendChild(itemView.el);
-    console.log('Add nav item ' + items[i]);
   }
 }
