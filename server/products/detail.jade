@@ -3,7 +3,15 @@ extends ../views/layout
 block content
   .nav
   .product
-  .product-json
+    .product-image
+      img(src="http://img02.taobaocdn.com/bao/uploaded/i2/T13p_2XidiXXaxyu.8_100337.jpg")
+    .product-detail
+      .product-name= product.name
+      .product-price= product.price('reg').value
+      .product-url
+        a(href="#{product.url}")= product.url
+
+  .product-json(style="clear: both;")
     pre= product
 
 block footer-script

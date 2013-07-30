@@ -5,9 +5,9 @@
   },
   "development": {},
   "scripts": [
-    "index.js"
   ],
   "styles": [
+    "product-detail.css"
   ],
   "local": [
     "product-detail-view"

@@ -1,0 +1,13 @@
+.product-image {
+  float:left;
+  max-width: 300px;
+  width: 30%;
+  margin: 10px;
+}
+.product-image img {
+  width: 100%;
+}
+.product-detail {
+  float: left;
+  width: 60%;
+}
