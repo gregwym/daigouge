@@ -8,7 +8,7 @@
     "index.js"
   ],
   "styles": [
-    "style.css"
+    "boot.css"
   ],
   "local": [
     "nav-view"
