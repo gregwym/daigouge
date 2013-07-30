@@ -21,8 +21,20 @@ make
 ```
 export MONGO_DB_URL='mongodb://<user>:<password>@dharma.mongohq.com:10000/your-db'
 NODE_PATH=server node app.js
-# Or use nodemon to automatically restart the app upon file changes
-NODE_PATH=server nodemon app.js
+```
+
+Or use nodemon to automatically restart the app upon server file changes:
+
+```
+NODE_PATH=server nodemon -w server -w *.js app.js
+```
+
+If you are working on the front-end, add `-b` option to build the components upon each request:
+
+```
+NODE_PATH=server node app.js -b
+# or
+NODE_PATH=server nodemon -w server -w *.js app.js -b
 ```
 
 # Deploy to Heroku
