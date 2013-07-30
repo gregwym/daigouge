@@ -11,6 +11,10 @@ var storages = require('configs/storages'),
     passports = require('configs/passports'),
     envs = require('configs/environments');
 
+if (process.argv.indexOf('-b') !== -1) {
+  app.all(/^((?!(css|js|jpg|png)).)*$/, require('build'));
+}
+
 // Setup storages
 storages.init(app, __dirname);
 
