@@ -5,5 +5,5 @@ block content
   .products
     for product in products
       p: a(href='/products/#{product._id}') #{product.name}
-  .products-json
+  .products-json(style="clear: both;")
     pre= products

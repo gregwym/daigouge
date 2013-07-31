@@ -5,9 +5,9 @@ block content
   form(action="/products", method="POST")
     input(type="text", name="name", placeholder="Name")
     input(type="url", name="url", placeholder="URL")
-    input(type="string", name="prices[0][value]", placeholder="Regular Price");
-    input(type="hidden", name="prices[0][type]", value="reg");
-    input(type="string", name="prices[1][value]", placeholder="Original Price");
-    input(type="hidden", name="prices[1][type]", value="org");
+    input(type="string", name="prices[0][v]", placeholder="Regular Price");
+    input(type="hidden", name="prices[0][t]", value="reg");
+    input(type="string", name="prices[1][v]", placeholder="Original Price");
+    input(type="hidden", name="prices[1][t]", value="org");
     input(type="hidden", name="prices[1][cur]", value="RMB¥");
     input(type="submit")

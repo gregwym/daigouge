@@ -8,8 +8,8 @@ var priceTypes = 'reg sale org'.split(' ');
 var currencies = 'CAD$ US$ RMB¥'.split(' ');
 
 var productPrice = mongoose.Schema({
-  value: { type: Number, required: true },  // Price value
-  type: {                                   // Price type
+  v: { type: Number, required: true },      // Price value
+  t: {                                      // Price type
     type: String,
     enum: priceTypes,
     default: priceTypes[0],
@@ -23,16 +23,25 @@ var productPrice = mongoose.Schema({
   _id: false
 });
 
+var productImage = mongoose.Schema({
+  url: {
+    type: String,
+    match: /^https{0,1}:\/\/.+/
+  },
+  jpg: Buffer,
+  png: Buffer
+});
+
 var products = mongoose.Schema({
   name: { type: String, required: true },   // Product name
-  date: {                                   // Associated dates
-    c: { type: Date, default: Date.now },     // Created date
-    lm: { type: Date, default: Date.now }     // Last modified date
-  },
   url: {                                    // Product source URL
     type: String,
     match: /^https{0,1}:\/\/.+/,
     required: true
+  },
+  imgs: [productImage],                     // Product Images
+  des: {                                    // Product description
+    type: String
   },
   prices: [productPrice]                    // Associated prices
 });
@@ -40,7 +49,7 @@ var products = mongoose.Schema({
 products.methods.price = function(type) {
   for (var i = 0; i < this.prices.length; i++) {
     var price = this.prices[i];
-    if (price.type === type) { return price; }
+    if (price.t === type) { return price; }
   }
   return null;
 };

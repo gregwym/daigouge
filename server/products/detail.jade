@@ -4,12 +4,13 @@ block content
   .nav
   .product
     .product-image
-      img(src="http://img02.taobaocdn.com/bao/uploaded/i2/T13p_2XidiXXaxyu.8_100337.jpg")
+      img(src="#{product.imgs[0].url}")
     .product-detail
       .product-name= product.name
-      .product-price= product.price('reg').value
+      .product-price= product.price('reg').v
       .product-url
         a(href="#{product.url}")= product.url
+      .product-description= product.des
 
   .product-json(style="clear: both;")
     pre= product
