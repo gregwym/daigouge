@@ -1,8 +1,8 @@
-var ProductView = require('product-detail-view');
+var AddToCart = require('product-add-to-cart');
 
 module.exports = function() {
-  var product = document.querySelector('.product');
-  var productView = new ProductView(locals.product);
-  product.appendChild(productView.el);
-  console.log('ProductView created');
+  var el = document.querySelector('.product-actions');
+  var addToCart = new AddToCart(locals.product);
+  el.appendChild(addToCart.el);
+  console.log('AddToCart component created');
 };

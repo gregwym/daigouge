@@ -8,6 +8,7 @@ block append content
     .product-detail
       .product-name= product.name
       .product-price= product.price('reg').v
+      .product-actions
       .product-url
         a(href="#{product.url}")= product.url
       .product-description= product.des
