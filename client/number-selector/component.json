@@ -1,0 +1,15 @@
+{
+  "name": "number-selector",
+  "version": "0.0.1",
+  "dependencies": {
+    "component/domify": "*",
+    "component/classes": "*",
+    "component/query": "*",
+    "component/value": "*",
+    "component/view": "*"
+  },
+  "scripts": [
+    "index.js",
+    "template.js"
+  ]
+}

@@ -1,0 +1,1 @@
+module.exports = '<div class="number-selector">\n  <input type="button" class="number-dec" on-click="decrease" data-value="dec">\n  <input type="number" class="number-value" name="value" data-min="min" data-max="max" data-step="step" data-value="init">\n  <input type="button" class="number-inc" on-click="increase" data-value="inc">\n</div>\n';
