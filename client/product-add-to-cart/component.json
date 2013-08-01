@@ -1,0 +1,21 @@
+{
+  "name": "product-add-to-cart",
+  "version": "0.0.1",
+  "dependencies": {
+    "component/domify": "*",
+    "component/query": "*",
+    "visionmedia/superagent": "*",
+    "component/view": "*"
+  },
+  "development": {},
+  "scripts": [
+    "index.js",
+    "template.js"
+  ],
+  "styles": [
+    "product-add-to-cart.css"
+  ],
+  "local": [
+    "number-selector"
+  ]
+}

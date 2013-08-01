@@ -1,0 +1,1 @@
+module.exports = '<form class="product-add-to-cart">\n  <input class="add-to-cart-submit" type="button" on-click="submit" data-value="submitText">\n</form>\n';
