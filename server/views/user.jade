@@ -1,8 +1,8 @@
 extends layout
 
-block prepend content
+block append content
   .nav
 
-block prepend boot-script
+block append boot-script
   script.
-    require('boot')();
+    require('user-boot')();

@@ -1,5 +1,5 @@
 {
-  "name": "boot",
+  "name": "user-boot",
   "version": "0.0.1",
   "dependencies": {
   },
@@ -8,8 +8,9 @@
     "index.js"
   ],
   "styles": [
-    "boot.css"
+    "user-boot.css"
   ],
   "local": [
+    "nav-view"
   ]
 }
