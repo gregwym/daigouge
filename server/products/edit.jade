@@ -1,6 +1,6 @@
-extends ../views/layout
+extends ../views/user
 
-block content
+block append content
   h1 Edit Product - ##{product._id}: #{product.name}
   form(action="/products/#{product._id}", method="POST")
     input(type="hidden", name="_method", value="put")

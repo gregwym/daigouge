@@ -1,7 +1,6 @@
-extends ../views/layout
+extends ../views/user
 
-block content
-  .nav
+block append content
   if user
     p Hi, #{user.email}
   .flash

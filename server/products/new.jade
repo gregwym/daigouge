@@ -1,6 +1,6 @@
-extends ../views/layout
+extends ../views/user
 
-block content
+block append content
   h1 New Product
   form(action="/products", method="POST")
     input(type="text", name="name", placeholder="Name")

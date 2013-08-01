@@ -1,6 +1,6 @@
-extends ../views/layout
+extends ../views/user
 
-block content
+block append content
   .nav
   .product
     .product-image
@@ -15,6 +15,6 @@ block content
   .product-json(style="clear: both;")
     pre= product
 
-block footer-script
+block append boot-script
   script.
     require('product-detail-boot')();
