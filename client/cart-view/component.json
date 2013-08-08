@@ -1,0 +1,22 @@
+{
+  "name": "cart-view",
+  "version": "0.0.1",
+  "dependencies": {
+    "visionmedia/superagent": "*",
+    "component/domify": "*",
+    "component/query": "*",
+    "component/view": "*"
+  },
+  "development": {},
+  "scripts": [
+    "index.js",
+    "cart-item-view.js",
+    "template.js"
+  ],
+  "styles": [
+    "style.css"
+  ],
+  "local": [
+    "number-selector"
+  ]
+}

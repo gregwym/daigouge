@@ -1,0 +1,1 @@
+module.exports = '<li class="cart-item">\n  <label class="product-name" data-text="product"></label>\n  <div class="quantity-selector"></div>\n  <input type="button" class="x" on-click="delete" value="✕">\n</li>\n';
