@@ -11,7 +11,7 @@ function isNumber(n) {
 
 module.exports = Selector;
 
-function Selector(options) {
+function Selector(options, onChange) {
   this.conf = {
     dec: options.dec || '-',
     inc: options.dec || '+',
@@ -24,6 +24,8 @@ function Selector(options) {
   if (isNumber(options.min)) { this.conf.min = options.min; }
   if (isNumber(options.max)) { this.conf.max = options.max; }
   if (isNumber(options.step)) { this.conf.step = options.step; }
+  this.onChange = onChange || null;
+
   var el = domify(html);
   View.call(this, this.conf, el);
 }
@@ -34,6 +36,7 @@ Selector.prototype.value = function(val) {
       (this.conf.min === null || val >= this.conf.min) &&
       (this.conf.max === null || val <= this.conf.max)) {
     value(el, val);
+    this.change();
     return val;
   }
   return Number(value(el));
@@ -47,4 +50,10 @@ Selector.prototype.increase = function() {
 Selector.prototype.decrease = function() {
   var val = this.value() - this.conf.step;
   this.value(val);
+};
+
+Selector.prototype.change = function() {
+  if (this.onChange) {
+    this.onChange(this.value());
+  }
 };
