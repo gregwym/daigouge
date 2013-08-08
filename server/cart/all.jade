@@ -1,0 +1,10 @@
+extends ../views/user
+
+block append content
+  .cart
+  .cart-json(style="clear: both;")
+    pre= JSON.stringify(cart)
+
+block append boot-script
+  script.
+    require('cart-boot')();

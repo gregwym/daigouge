@@ -24,8 +24,9 @@ app.all('*', prepareCart);
 
 // List all
 app.get('/', function(req, res) {
+  res.expose(req.session.cart, 'locals.cart');
   res.format({
-    html: function() { res.send(req.session.cart); },
+    html: function() { res.render('all', { cart: req.session.cart }); },
     json: function() { res.json(req.session.cart); }
   });
 });
