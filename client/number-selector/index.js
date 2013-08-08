@@ -37,7 +37,6 @@ Selector.prototype.value = function(val) {
       (this.conf.max === null || val <= this.conf.max)) {
     value(el, val);
     this.change();
-    return val;
   }
   return Number(value(el));
 };
@@ -55,5 +54,18 @@ Selector.prototype.decrease = function() {
 Selector.prototype.change = function() {
   if (this.onChange) {
     this.onChange(this.value());
+  }
+};
+
+Selector.prototype.enable = function(value) {
+  var el = query.all('input', this.el);
+  if (value) {
+    for (var i = 0; i < el.length; i++) {
+      el[i].removeAttribute('disabled');
+    }
+  } else {
+    for (var i = 0; i < el.length; i++) {
+      el[i].setAttribute('disabled');
+    }
   }
 };
