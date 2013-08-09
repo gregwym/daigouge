@@ -13,7 +13,8 @@ function CartItemView(item) {
   }
 
   this.item = item;
-  var el = domify(html);
+  var els = domify(html);
+  var el = query('.cart-item', els);
   View.call(this, item, el);
 
   var self = this;
