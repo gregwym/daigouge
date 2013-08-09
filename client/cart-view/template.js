@@ -1,1 +1,1 @@
-module.exports = '<li class="cart-item">\n  <label class="product-name" data-text="product"></label>\n  <div class="quantity-selector"></div>\n  <input type="button" class="x" on-click="delete" value="✕">\n</li>\n';
+module.exports = '<div class="cart-view">\n  <ul class="cart-list"></ul>\n  <input type="button" on-click="submit" value="submit" data-value="submitText">\n</div>\n<li class="cart-item">\n  <label class="product-name" data-text="prod"></label>\n  <div class="quantity-selector"></div>\n  <input type="button" class="x" on-click="delete" value="✕">\n</li>\n';

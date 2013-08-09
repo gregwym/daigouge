@@ -21,17 +21,17 @@ function CartItemView(item) {
   var position = query('.quantity-selector', this.el);
   this.quantitySelector = new NumberSelector({
     min: 1,
-    init: item.quantity
+    init: item.q
   }, function(value) {
-    return self.edit(value);
+    return self.changeQuantity(value);
   });
   this.el.replaceChild(this.quantitySelector.el, position);
 }
 
 CartItemView.prototype.delete = function() {
   var self = this;
-  console.log('Deleteing ' + this.item.product);
-  request.post('/cart/' + this.item.product).send({
+  console.log('Deleteing ' + this.item.prod);
+  request.post('/cart/' + this.item.prod).send({
     _method: 'delete'
   }).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); return; }
@@ -39,13 +39,18 @@ CartItemView.prototype.delete = function() {
   });
 };
 
-CartItemView.prototype.edit = function(value) {
+CartItemView.prototype.changeQuantity = function(value) {
+  if (!value) {
+    throw new Error('Cannot have zero or undefined value');
+  }
   var self = this;
-  this.item.quantity = value;
-  console.log('Changing ' + this.item.product + ' quantity to ' + value);
+  console.log('Changing ' + this.item.prod + ' quantity to ' + value);
 
   this.quantitySelector.enable(false);
-  request.post('/cart').send(this.item).end(function(err, result) {
+  request.post('/cart/' + this.item.prod).send({
+    _method: 'put',
+    quantity: value
+  }).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); return; }
     self.quantitySelector.enable(true);
   });
