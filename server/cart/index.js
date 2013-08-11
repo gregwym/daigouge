@@ -83,7 +83,7 @@ app.delete('/:product', function(req, res) {
   }
 
   // Otherwise, remove it
-  req.cart.items.remove(req.cart.items[i]);
+  req.cart.items.splice(i, 1);
   req.cart.save(function(err) {
     if (err) { return res.status(500).json(err); }
     return res.json(req.cart.items);

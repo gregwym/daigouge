@@ -7,9 +7,7 @@ var requirement = mongoose.Schema({
 }, {
   _id: false
 });
-requirement.methods.equals = function(obj) {
-  return this.k == obj.k;
-};
+
 
 var cartItem = mongoose.Schema({
   prod: { type: Types.ObjectId, ref: 'products', required: true, unique: true },
@@ -18,9 +16,7 @@ var cartItem = mongoose.Schema({
 }, {
   _id: false
 });
-cartItem.methods.equals = function(item) {
-  return this.prod == item.prod;
-};
+
 
 var carts = mongoose.Schema({
   se: { type: Types.ObjectId, ref: 'sessions' },    // Session
