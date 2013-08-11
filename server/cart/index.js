@@ -27,10 +27,15 @@ app.all('*', prepareSessionCart);
 
 // List all
 app.get('/', function(req, res) {
-  res.expose(JSON.parse(JSON.stringify(req.cart.items)), 'locals.cart');
-  res.format({
-    html: function() { res.render('all', { cart: req.cart.items }); },
-    json: function() { res.json(req.cart.items); }
+  models.products.populate(req.cart.items, {
+    path: 'prod',
+    select: '_id name'
+  }, function(err, items) {
+    res.expose(JSON.parse(JSON.stringify(items)), 'locals.cart');
+    res.format({
+      html: function() { res.render('all', { cart: items }); },
+      json: function() { res.json(items); }
+    });
   });
 });
 

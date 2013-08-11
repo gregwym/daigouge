@@ -15,7 +15,7 @@ function CartItemView(item) {
   this.item = item;
   var els = domify(html);
   var el = query('.cart-item', els);
-  View.call(this, item, el);
+  View.call(this, item.prod, el);
 
   var self = this;
   var position = query('.quantity-selector', this.el);
@@ -30,8 +30,8 @@ function CartItemView(item) {
 
 CartItemView.prototype.delete = function() {
   var self = this;
-  console.log('Deleteing ' + this.item.prod);
-  request.post('/cart/' + this.item.prod).send({
+  console.log('Deleteing ' + this.item.prod._id);
+  request.post('/cart/' + this.item.prod._id).send({
     _method: 'delete'
   }).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); return; }
@@ -44,10 +44,10 @@ CartItemView.prototype.changeQuantity = function(value) {
     throw new Error('Cannot have zero or undefined value');
   }
   var self = this;
-  console.log('Changing ' + this.item.prod + ' quantity to ' + value);
+  console.log('Changing ' + this.item.prod._id + ' quantity to ' + value);
 
   this.quantitySelector.enable(false);
-  request.post('/cart/' + this.item.prod).send({
+  request.post('/cart/' + this.item.prod._id).send({
     _method: 'put',
     quantity: value
   }).end(function(err, result) {
