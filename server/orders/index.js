@@ -1,4 +1,5 @@
 var express = require('express'),
+    debug = require('debug')('orders'),
     models = require('models');
 var app = module.exports = express();
 
@@ -11,6 +12,16 @@ var resultCallback = function(req, res) {
   };
 };
 
+app.all('*', function(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  debug('Not authenticated.');
+  if (req.method === 'GET') {
+    // TODO: set jump-back url
+    return res.redirect('/auth/local');
+  }
+  return res.status(401).send();
+});
+
 app.get('/', function(req, res){
   models.orders.find(resultCallback(req, res));
 });
@@ -20,8 +31,29 @@ app.get('/new', function(req, res){
 });
 
 app.post('/', function(req, res){
-  var order = new models.orders(req.body || req.query);
+  var orderItems = [];
+  for (var i in req.body) {
+    var item = req.body[i];
+    orderItems.push({
+      prod: item.prod._id,
+      up: item.prod.unitPrice.v,
+      q: item.q,
+      req: item.req
+    });
+  }
+
+  var orderHistory = [{
+    act: 'c',
+    u: req.user._id
+  }];
+
+  var order = new models.orders({
+    user: req.user._id,
+    items: orderItems,
+    hist: orderHistory
+  });
   order.save(resultCallback(req, res));
+  // return res.status(201).json(order);
 });
 
 app.get('/:order', function(req, res){

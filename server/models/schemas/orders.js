@@ -26,7 +26,7 @@ var requirement = mongoose.Schema({
 var orderItem = mongoose.Schema({
   prod: { type: Types.ObjectId, ref: 'products', required: true },
   up: { type: Number, required: true },             // Unit price
-  am: { type: Number, required: true },             // Amount
+  q: { type: Number, required: true },              // Quantity
   req: [requirement]
 }, {
   _id: false

@@ -1,13 +1,14 @@
 var html = require('./template'),
     domify = require('domify'),
     query = require('query'),
+    request = require('superagent'),
+    CartItemView = require('./cart-item-view'),
     View = require('view');
-    CartItemView = require('./cart-item-view');
 
 module.exports = CartView;
 
 function CartView(cart) {
-  this.cart = cart || {};
+  this.cart = cart || [];
   this.conf = {
     submitText: '提交订单'
   };
@@ -16,14 +17,20 @@ function CartView(cart) {
   var el = query('.cart-view', els);
   View.call(this, this.conf, el);
 
-  var cartList = query('.cart-list', this.el);
+  this.cartList = query('.cart-list', this.el);
+  this.submitButton = query('.cart-submit', this.el);
   for (var key in cart) {
     var item = cart[key];
     var itemView = new CartItemView(item);
-    cartList.appendChild(itemView.el);
+    this.cartList.appendChild(itemView.el);
   }
 }
 
 CartView.prototype.submit = function() {
-  // TODO
+  var self = this;
+  self.submitButton.setAttribute('disabled');
+  request.post('/orders').send(this.cart).end(function(err, result) {
+    if (err) { return alert(err); }
+    self.submitButton.removeAttribute('disabled');
+  });
 };
