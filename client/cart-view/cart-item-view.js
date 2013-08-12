@@ -28,6 +28,10 @@ function CartItemView(item) {
   this.el.replaceChild(this.quantitySelector.el, position);
 }
 
+CartItemView.prototype.priceTag = function() {
+  return (this.item.prod.unitPrice.cur || '$') + this.item.prod.unitPrice.v;
+};
+
 CartItemView.prototype.delete = function() {
   var self = this;
   console.log('Deleteing ' + this.item.prod._id);

@@ -54,4 +54,8 @@ products.methods.price = function(type) {
   return null;
 };
 
+products.virtual('unitPrice').get(function() {
+  return this.price('sale') || this.price('reg');
+});
+
 module.exports = products;

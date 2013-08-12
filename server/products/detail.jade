@@ -7,7 +7,7 @@ block append content
       img(src="#{product.imgs[0].url}")
     .product-detail
       .product-name= product.name
-      .product-price= product.price('reg').v
+      .product-price= product.unitPrice.v
       .product-actions
       .product-url
         a(href="#{product.url}")= product.url

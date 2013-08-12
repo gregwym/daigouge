@@ -28,10 +28,14 @@ app.all('*', prepareSessionCart);
 // List all
 app.get('/', function(req, res) {
   models.products.populate(req.cart.items, {
-    path: 'prod',
-    select: '_id name'
+    path: 'prod'
   }, function(err, items) {
-    res.expose(JSON.parse(JSON.stringify(items)), 'locals.cart');
+    // Convert into plain object and fill in unit price.
+    var plainItems = JSON.parse(JSON.stringify(items));
+    for (var i = 0; i < items.length; i++) {
+      plainItems[i].prod.unitPrice = JSON.parse(JSON.stringify(items[i].prod.unitPrice));
+    }
+    res.expose(plainItems, 'locals.cart');
     res.format({
       html: function() { res.render('all', { cart: items }); },
       json: function() { res.json(items); }

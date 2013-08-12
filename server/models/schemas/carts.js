@@ -20,7 +20,7 @@ var cartItem = mongoose.Schema({
 
 var carts = mongoose.Schema({
   se: { type: Types.ObjectId, ref: 'sessions' },    // Session
-  c: {                                              // Create date
+  lm: {                                             // Last modified date
     type: Date,
     default: Date.now,
     expires: '24h'
