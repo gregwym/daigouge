@@ -28,4 +28,21 @@ var carts = mongoose.Schema({
   items: [cartItem],
 });
 
+carts.statics.findCartBySession = function(sessionID, next) {
+  var self = this;
+  self.findOne({ se: sessionID }, function(err, cart) {
+    if (err) { return next(err); }
+
+    if (cart) {
+      return next(null, cart);
+    }
+
+    cart = new self({ se: sessionID });
+    // Save the cart and move on
+    cart.save(function(err) {
+      return next(err, cart);
+    });
+  });
+};
+
 module.exports = carts;
