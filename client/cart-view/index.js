@@ -27,5 +27,5 @@ function CartView(cart) {
 }
 
 CartView.prototype.submit = function() {
-  window.location = '/cart/submit';
+  window.location = '/orders/new';
 };

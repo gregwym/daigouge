@@ -1,5 +1,6 @@
 var express = require('express'),
     debug = require('debug')('orders'),
+    utils = require('utils'),
     models = require('models');
 var app = module.exports = express();
 
@@ -26,8 +27,11 @@ app.get('/', function(req, res){
   models.orders.find(resultCallback(req, res));
 });
 
-app.get('/new', function(req, res){
-  res.send('new order');
+app.get('/new', utils.middlewares.cart, function(req, res){
+  utils.populators.products(req.cart.items, function(err, items, plainItems) {
+    if (err) { return res.status(500).json(err); }
+    res.render('new', { user: req.user, cart: items });
+  });
 });
 
 app.post('/', function(req, res){
