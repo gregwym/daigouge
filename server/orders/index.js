@@ -34,30 +34,33 @@ app.get('/new', utils.middlewares.cart, function(req, res){
   });
 });
 
-app.post('/', function(req, res){
-  var orderItems = [];
-  for (var i in req.body) {
-    var item = req.body[i];
-    orderItems.push({
-      prod: item.prod._id,
-      up: item.prod.unitPrice.v,
-      q: item.q,
-      req: item.req
+app.post('/', utils.middlewares.cart, function(req, res) {
+  utils.populators.products(req.cart.items, function(err, items, plainItems) {
+    if (err) { return res.status(500).json(err); }
+
+    var orderItems = [];
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      orderItems.push({
+        prod: item.prod._id,
+        up: item.prod.unitPrice.v,
+        q: item.q,
+        req: item.req
+      });
+    }
+
+    var orderHistory = [{
+      act: 'c',
+      u: req.user._id
+    }];
+
+    var order = new models.orders({
+      user: req.user._id,
+      items: orderItems,
+      hist: orderHistory
     });
-  }
-
-  var orderHistory = [{
-    act: 'c',
-    u: req.user._id
-  }];
-
-  var order = new models.orders({
-    user: req.user._id,
-    items: orderItems,
-    hist: orderHistory
+    order.save(resultCallback(req, res));
   });
-  order.save(resultCallback(req, res));
-  // return res.status(201).json(order);
 });
 
 app.get('/:order', function(req, res){

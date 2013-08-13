@@ -1,7 +1,7 @@
 extends ../views/user
 
 block append content
-  form.new-order
+  form.new-order(action="/orders", method="POST")
     .cart
       .cart-view
         ul.cart-list
@@ -21,6 +21,4 @@ block append content
     .billing-address
     .shipping-address
     .actions
-
-
-
+      input(type="submit")
