@@ -27,10 +27,5 @@ function CartView(cart) {
 }
 
 CartView.prototype.submit = function() {
-  var self = this;
-  self.submitButton.setAttribute('disabled');
-  request.post('/orders').send(this.cart).end(function(err, result) {
-    if (err) { return alert(err); }
-    self.submitButton.removeAttribute('disabled');
-  });
+  window.location = '/cart/submit';
 };

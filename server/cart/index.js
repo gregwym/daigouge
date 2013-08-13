@@ -93,6 +93,14 @@ app.delete('/:product', function(req, res) {
   });
 });
 
+app.get('/submit', function(req, res) {
+  populateProducts(req.cart.items, function(err, items, plainItems) {
+    if (err) { return res.status(500).json(err); }
+    res.expose(plainItems, 'locals.cart');
+    res.render('submit', { user: req.user, cart: items });
+  });
+});
+
 // Helpers
 // Searching for product's index
 var findInItems = function(items, productId) {

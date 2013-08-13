@@ -1,0 +1,26 @@
+extends ../views/user
+
+block append content
+  form.new-order
+    .cart
+      .cart-view
+        ul.cart-list
+          - var total = 0
+          for item in cart
+            - total += item.prod.unitPrice.v * item.q
+            li.cart-item
+              a(href="/products/#{item.prod._id}")
+                label.product-name #{item.prod.name}
+              label.product-unit-price $#{item.prod.unitPrice.v}
+              label *
+              label.quantity #{item.q}
+        div.cart-summary
+          label.total Subtotal: $#{total}
+        div.cart-actions
+          a(href="/cart") Edit Cart >>
+    .billing-address
+    .shipping-address
+    .actions
+
+
+
