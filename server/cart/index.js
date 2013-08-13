@@ -1,4 +1,5 @@
 var express = require('express'),
+    utils = require('utils'),
     models = require('models');
 var app = module.exports = express();
 var debug = require('debug')('cart');
@@ -6,28 +7,12 @@ var debug = require('debug')('cart');
 // Settings
 app.set('views', __dirname);
 
-var prepareSessionCart = function(req, res, next) {
-  models.carts.findOne({ se: req.sessionID }, function(err, cart) {
-    if (err) { return next(err); }
-
-    if (cart) {
-      req.cart = cart;
-      return next();
-    }
-
-    req.cart = new models.carts({ se: req.sessionID });
-    // Save the cart and move on
-    req.cart.save(function(err) {
-      return next(err);
-    });
-  });
-};
-
-app.all('*', prepareSessionCart);
+// Cart fetching
+app.all('*', utils.middlewares.cart);
 
 // List all
 app.get('/', function(req, res) {
-  populateProducts(req.cart.items, function(err, items, plainItems) {
+  utils.populators.products(req.cart.items, function(err, items, plainItems) {
     if (err) { return res.status(500).json(err); }
     res.expose(plainItems, 'locals.cart');
     res.format({
