@@ -35,9 +35,11 @@ app.get('/new', utils.middlewares.cart, function(req, res){
 });
 
 app.post('/', utils.middlewares.cart, function(req, res) {
+  // Populate products information
   utils.populators.products(req.cart.items, function(err, items, plainItems) {
     if (err) { return res.status(500).json(err); }
 
+    // Create order items
     var orderItems = [];
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
@@ -49,17 +51,29 @@ app.post('/', utils.middlewares.cart, function(req, res) {
       });
     }
 
+    // Create order history
     var orderHistory = [{
       act: 'c',
       u: req.user._id
     }];
 
+    // TODO: Address, special requirements, etc...
+
+    // Create new order
     var order = new models.orders({
       user: req.user._id,
       items: orderItems,
       hist: orderHistory
     });
-    order.save(resultCallback(req, res));
+
+    // Save it
+    order.save(function(err, order){
+      if (err) { return res.status(500).json(err); }
+      req.cart.remove(function(err) {
+        // Do nothing
+      });
+      return res.json(order);
+    });
   });
 });
 

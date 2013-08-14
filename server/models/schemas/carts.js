@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
+    debug = require('debug')('cart'),
     Types = mongoose.Schema.Types;
 
+// Schema definition
 var requirement = mongoose.Schema({
   k: { type: String, required: true },
   v: { type: String, required: true }
@@ -8,15 +10,13 @@ var requirement = mongoose.Schema({
   _id: false
 });
 
-
 var cartItem = mongoose.Schema({
-  prod: { type: Types.ObjectId, ref: 'products', required: true, unique: true },
+  prod: { type: Types.ObjectId, ref: 'products', required: true },
   q: { type: Number, required: true },             // Quantity
   req: [requirement]
 }, {
   _id: false
 });
-
 
 var carts = mongoose.Schema({
   se: { type: Types.ObjectId, ref: 'sessions' },    // Session
@@ -28,6 +28,46 @@ var carts = mongoose.Schema({
   items: [cartItem],
 });
 
+// Methods
+// TODO: Same product with different requirement can exists simultaneously
+carts.methods.indexOfProd = function(prod) {
+  var i = 0;
+  for (; i < this.items.length; i++) {
+    if (this.items[i].prod == prod) break;
+  }
+  return i;
+};
+
+carts.methods.findItemByProd = function(prod) {
+  for (var i = 0; i < this.items.length; i++) {
+    if (this.items[i].prod == prod) return this.items[i];
+  }
+  return null;
+};
+
+carts.methods.upsertItem = function(item, next) {
+  // Searching for existing prod index
+  var i = this.indexOfProd(item.prod);
+  // Upsert item into array
+  this.items.set(i, item);
+  this.lm = Date.now();
+  this.save(next);
+};
+
+carts.methods.removeProd = function(prod, next) {
+  // Searching for existing prod index
+  var i = this.indexOfProd(prod);
+  if (i == this.items.length) {
+    var err = new Error('Item not found');
+    err.type = 'notfound';
+    return next(err);
+  }
+  this.items.splice(i, 1);
+  this.lm = Date.now();
+  this.save(next);
+};
+
+// Static methods
 carts.statics.findCartBySession = function(sessionID, next) {
   var self = this;
   self.findOne({ se: sessionID }, function(err, cart) {
@@ -39,9 +79,7 @@ carts.statics.findCartBySession = function(sessionID, next) {
 
     cart = new self({ se: sessionID });
     // Save the cart and move on
-    cart.save(function(err) {
-      return next(err, cart);
-    });
+    cart.save(next);
   });
 };
 
