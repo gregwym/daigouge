@@ -12,7 +12,8 @@ app.all('*', utils.middlewares.cart);
 
 // List all
 app.get('/', function(req, res) {
-  utils.populators.products(req.cart.items, function(err, items, plainItems) {
+  utils.populators.products(req.cart.items, function(err, items) {
+    var plainItems = items.toObject({ virtuals: true });
     if (err) { return res.status(500).json(err); }
     res.expose(plainItems, 'locals.cart');
     res.format({

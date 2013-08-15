@@ -34,8 +34,8 @@ CartItemView.prototype.priceTag = function() {
 
 CartItemView.prototype.delete = function() {
   var self = this;
-  console.log('Deleteing ' + this.item.prod._id);
-  request.post('/cart/' + this.item.prod._id).send({
+  console.log('Deleteing ' + this.item.prod.id);
+  request.post('/cart/' + this.item.prod.id).send({
     _method: 'delete'
   }).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); return; }
@@ -48,10 +48,10 @@ CartItemView.prototype.changeQuantity = function(value) {
     throw new Error('Cannot have zero or undefined value');
   }
   var self = this;
-  console.log('Changing ' + this.item.prod._id + ' quantity to ' + value);
+  console.log('Changing ' + this.item.prod.id + ' quantity to ' + value);
 
   this.quantitySelector.enable(false);
-  request.post('/cart/' + this.item.prod._id).send({
+  request.post('/cart/' + this.item.prod.id).send({
     _method: 'put',
     quantity: value
   }).end(function(err, result) {

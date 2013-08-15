@@ -7,7 +7,7 @@ exports.init = function() {
   //   To support persistent login sessions, Passport needs to be able to
   //   serialize users into and deserialize users out of the session.
   passport.serializeUser(function(user, done) {
-    return done(null, user._id);
+    return done(null, user.id);
   });
 
   passport.deserializeUser(function(id, done) {

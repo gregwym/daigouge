@@ -32,7 +32,7 @@ AddToCart.prototype.submit = function() {
   // Submit the request
   submitButton.setAttribute('disabled');
   request.post('/cart').send({
-    prod: product._id,
+    prod: product.id,
     q: quantity
   }).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); }

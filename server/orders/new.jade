@@ -9,7 +9,7 @@ block append content
           for item in cart
             - total += item.prod.unitPrice.v * item.q
             li.cart-item
-              a(href="/products/#{item.prod._id}")
+              a(href="/products/#{item.prod.id}")
                 label.product-name #{item.prod.name}
               label.product-unit-price $#{item.prod.unitPrice.v}
               label *

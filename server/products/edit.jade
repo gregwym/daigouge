@@ -1,8 +1,8 @@
 extends ../views/user
 
 block append content
-  h1 Edit Product - ##{product._id}: #{product.name}
-  form(action="/products/#{product._id}", method="POST")
+  h1 Edit Product - ##{product.id}: #{product.name}
+  form(action="/products/#{product.id}", method="POST")
     input(type="hidden", name="_method", value="put")
     input(type="text", name="name", value="#{product.name}", placeholder="Name")
     input(type="url", name="url", value="#{product.url}", placeholder="URL")
@@ -12,6 +12,6 @@ block append content
     input(type="hidden", name="prices[1][t]", value="org");
     input(type="hidden", name="prices[1][cur]", value="RMB¥");
     input(type="submit")
-  form(action="/products/#{product._id}", method="POST")
+  form(action="/products/#{product.id}", method="POST")
     input(type="hidden", name="_method", value="delete")
     input(type="submit", value="Delete")

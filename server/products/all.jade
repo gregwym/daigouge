@@ -3,6 +3,6 @@ extends ../views/user
 block append content
   .products
     for product in products
-      p: a(href='/products/#{product._id}') #{product.name}
+      p: a(href='/products/#{product.id}') #{product.name}
   .products-json(style="clear: both;")
     pre= products

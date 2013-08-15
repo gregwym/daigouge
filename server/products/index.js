@@ -18,7 +18,9 @@ var formatResult = function(req, res, html) {
 // Index
 app.get('/', function(req, res){
   models.products.find(formatResult(req, res, function(products) {
-    res.expose(JSON.parse(JSON.stringify(products)), 'locals.products');
+    res.expose(products.map(function(product) {
+      return product.toObject({ virtuals: true });
+    }), 'locals.products');
     res.render('all', { products: products });
   }));
 });
@@ -32,7 +34,7 @@ app.get('/new', function(req, res){
 app.post('/', function(req, res){
   var product = new models.products(req.body || req.query);
   product.save(formatResult(req, res, function(product) {
-    res.redirect(product._id.toString());
+    res.redirect(product.id.toString());
   }));
 });
 
@@ -40,7 +42,7 @@ app.post('/', function(req, res){
 app.get('/:product', function(req, res){
   models.products.findOne({ '_id': req.params.product },
                           formatResult(req, res, function(product) {
-    res.expose(JSON.parse(JSON.stringify(product)), 'locals.product');
+    res.expose(product.toObject({ virtuals: true }), 'locals.product');
     res.render('detail', { product: product });
   }));
 });
@@ -49,7 +51,7 @@ app.get('/:product', function(req, res){
 app.get('/:product/edit', function(req, res){
   models.products.findOne({ '_id': req.params.product },
                           formatResult(req, res, function(product) {
-    res.expose(JSON.parse(JSON.stringify(product)), 'locals.product');
+    res.expose(product.toObject({ virtuals: true }), 'locals.product');
     res.render('edit', { product: product });
   }));
 });
@@ -59,7 +61,7 @@ app.put('/:product', function(req, res){
   models.products.findOneAndUpdate({ '_id': req.params.product },
                                    req.body || req.query,
                                    formatResult(req, res, function(product) {
-    res.redirect(product._id.toString());
+    res.redirect(product.id.toString());
   }));
 });
 
