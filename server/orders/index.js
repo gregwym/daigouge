@@ -13,6 +13,16 @@ var resultCallback = function(req, res) {
   };
 };
 
+var formatResult = function(req, res, html) {
+  return function(err, result) {
+    if (err) { return res.status(500).json(err); }
+    return res.format({
+      html: function() { html(result); },
+      json: function() { res.json(result); }
+    });
+  };
+};
+
 app.all('*', function(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   debug('Not authenticated.');
@@ -26,7 +36,12 @@ app.all('*', function(req, res, next) {
 });
 
 app.get('/', function(req, res){
-  models.orders.find(resultCallback(req, res));
+  models.orders.find(formatResult(req, res, function(orders) {
+    res.expose(orders.map(function(order) {
+      return order.toObject({ virtuals: true });
+    }), 'locals.orders');
+    res.render('all', { orders: orders });
+  }));
 });
 
 app.get('/new', utils.middlewares.cart, function(req, res){

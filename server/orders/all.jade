@@ -1,0 +1,12 @@
+extends ../views/user
+
+block append content
+  ul.orders
+    for order in orders
+      li.order
+        a(href='/orders/#{order.id}').order-inline Order ##{order.id}
+        ul.order-items
+          for item in order.items
+            li.order-item Product: #{item.prod}, Quantity: #{item.q}
+  .orders-json(style="clear: both;")
+    pre= orders
