@@ -101,8 +101,18 @@ app.post('/', utils.middlewares.cart, function(req, res) {
 });
 
 app.get('/:order', function(req, res){
-  models.orders.findOne({ '_id': req.params.order },
-                          resultCallback(req, res));
+  models.orders.findOne({
+    '_id': req.params.order
+  }, formatResult(req, res, function(order) {
+    utils.populators.users(order, function(err, order) {
+      if (err) { return res.status(500).json(err); }
+      utils.populators.products(order.items, function(err, items) {
+        if (err) { return res.status(500).json(err); }
+        res.expose(order.toObject({ virtuals: true }), 'locals.order');
+        res.render('detail', { order: order });
+      });
+    });
+  }));
 });
 
 app.get('/:order/edit', function(req, res){

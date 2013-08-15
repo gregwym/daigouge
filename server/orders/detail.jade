@@ -1,0 +1,29 @@
+extends ../views/user
+
+block append content
+  .order
+    .order-summary
+      h3 Order Summary
+      .order-id
+        label Order ID:
+        label= order.id
+      .order-user
+        label User ID:
+        label= order.user.email
+      .order-status
+        label Order Status:
+        label= order.stat
+      h3 Order Items
+      ul.order-items
+        for item in order.items
+          li.order-item
+            a(href='/products/#{item.prod.id}').product-name #{item.prod.name}
+            label.item-quantity Quantity: #{item.q},
+            label.item-unit-price Price: #{item.up}
+      h3 Order History
+      ul.order-histories
+        for hist in order.hist
+          li.order-history #{hist.act} @ #{hist.d} BY #{hist.u}
+
+  .order-json(style="clear: both;")
+    pre= order
