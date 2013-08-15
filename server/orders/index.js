@@ -16,11 +16,13 @@ var resultCallback = function(req, res) {
 app.all('*', function(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   debug('Not authenticated.');
-  if (req.method === 'GET') {
-    // TODO: set jump-back url
-    return res.redirect('/auth/local');
+
+  if (req.xhr) {
+    return res.status(401).send();
   }
-  return res.status(401).send();
+
+  // TODO: set jump-back url
+  return res.redirect('/auth/local');
 });
 
 app.get('/', function(req, res){
@@ -35,6 +37,12 @@ app.get('/new', utils.middlewares.cart, function(req, res){
 });
 
 app.post('/', utils.middlewares.cart, function(req, res) {
+  if (req.cart.items.length === 0) {
+    if (req.xhr) {
+      return res.status(400).send();
+    }
+    return res.redirect('/cart');
+  }
   // Populate products information
   utils.populators.products(req.cart.items, function(err, items, plainItems) {
     if (err) { return res.status(500).json(err); }
@@ -72,7 +80,7 @@ app.post('/', utils.middlewares.cart, function(req, res) {
       req.cart.remove(function(err) {
         // Do nothing
       });
-      return res.json(order);
+      return res.redirect('' + order._id);
     });
   });
 });
