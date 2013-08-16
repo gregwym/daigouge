@@ -40,8 +40,8 @@ app.post('/', function(req, res){
 
 // Show
 app.get('/:product', function(req, res){
-  models.products.findOne({ '_id': req.params.product },
-                          formatResult(req, res, function(product) {
+  models.products.findById(req.params.product,
+                           formatResult(req, res, function(product) {
     res.expose(product.toObject({ virtuals: true }), 'locals.product');
     res.render('detail', { product: product });
   }));
@@ -49,8 +49,8 @@ app.get('/:product', function(req, res){
 
 // Edit
 app.get('/:product/edit', function(req, res){
-  models.products.findOne({ '_id': req.params.product },
-                          formatResult(req, res, function(product) {
+  models.products.findById(req.params.product,
+                           formatResult(req, res, function(product) {
     res.expose(product.toObject({ virtuals: true }), 'locals.product');
     res.render('edit', { product: product });
   }));
@@ -58,17 +58,16 @@ app.get('/:product/edit', function(req, res){
 
 // Update
 app.put('/:product', function(req, res){
-  models.products.findOneAndUpdate({ '_id': req.params.product },
-                                   req.body || req.query,
-                                   formatResult(req, res, function(product) {
+  models.products.findByIdAndUpdate(req.params.product, req.body || req.query,
+                                    formatResult(req, res, function(product) {
     res.redirect(product.id.toString());
   }));
 });
 
 // Destroy
 app.delete('/:product',  function(req, res){
-  models.products.findOneAndRemove({ '_id': req.params.product },
-                                   formatResult(req, res, function(product) {
+  models.products.findByIdAndRemove(req.params.product,
+                                    formatResult(req, res, function(product) {
     res.redirect('');
   }));
 });

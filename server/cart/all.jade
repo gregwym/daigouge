@@ -3,7 +3,7 @@ extends ../views/user
 block append content
   .cart
   .cart-json(style="clear: both;")
-    pre= JSON.stringify(cart)
+    pre= cart
 
 block append boot-script
   script.

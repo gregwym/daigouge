@@ -22,10 +22,6 @@ users.statics.findByEmail = function(email, done) {
   this.findOne({ 'email': email }, done);
 };
 
-users.statics.findById = function(id, done) {
-  this.findOne({ '_id': id }, done);
-};
-
 users.statics.create = function(email, password, done) {
   // Create new user
   var user = new this({

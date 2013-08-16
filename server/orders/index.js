@@ -101,9 +101,7 @@ app.post('/', utils.middlewares.cart, function(req, res) {
 });
 
 app.get('/:order', function(req, res){
-  models.orders.findOne({
-    '_id': req.params.order
-  }, formatResult(req, res, function(order) {
+  models.orders.findById(req.params.order, formatResult(req, res, function(order) {
     utils.populators.users(order, function(err, order) {
       if (err) { return res.status(500).json(err); }
       utils.populators.products(order.items, function(err, items) {
@@ -116,21 +114,19 @@ app.get('/:order', function(req, res){
 });
 
 app.get('/:order/edit', function(req, res){
-  models.orders.findOne({ '_id': req.params.order },
-                          function(err, order) {
+  models.orders.findById(req.params.order, function(err, order) {
     if (err) { return res.status(500).json(err); }
     return res.send('edit order ' + order);
   });
 });
 
 app.put('/:order', function(req, res){
-  models.orders.findOneAndUpdate({ '_id': req.params.order },
-                                   req.body || req.query,
-                                   resultCallback(req, res));
+  models.orders.findByIdAndUpdate(req.params.order, req.body || req.query,
+                                  resultCallback(req, res));
 });
 
 app.delete('/:order',  function(req, res){
-  models.products.findOneAndRemove({ '_id': req.params.order },
-                                   resultCallback(req, res));
+  models.products.findByIdAndRemove(req.params.order,
+                                    resultCallback(req, res));
 });
 
