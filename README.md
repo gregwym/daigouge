@@ -20,6 +20,8 @@ make
 
 ```
 export MONGO_DB_URL='mongodb://<user>:<password>@dharma.mongohq.com:10000/your-db'
+export TOP_APP_KEY='12345678'
+export TOP_APP_SECRET='134567890abcdefghijklmnopqrstuvwxyz'
 NODE_PATH=server node app.js
 ```
 
@@ -43,4 +45,6 @@ NODE_PATH=server nodemon -w server -w *.js app.js -b
 git add remote heroku <heroku_git>
 git push heroku master
 heroku config:set MONGO_DB_URL='mongodb://<user>:<password>@dharma.mongohq.com:10000/your-db'
+heroku config:set TOP_APP_KEY='12345678'
+heroku config:set TOP_APP_SECRET='134567890abcdefghijklmnopqrstuvwxyz'
 ```
