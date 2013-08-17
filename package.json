@@ -21,6 +21,7 @@
     "start": "NODE_PATH=server node app.js"
   },
   "dependencies": {
+    "top.js": "0.0.x",
     "component": "0.17.x",
     "debug": "0.7.x",
     "express": "3.3.x",
