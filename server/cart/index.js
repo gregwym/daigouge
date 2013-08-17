@@ -65,14 +65,3 @@ app.delete('/:product', function(req, res) {
     return res.json(cart);
   });
 });
-
-// Helpers
-// Searching for product's index
-var findInItems = function(items, productId) {
-  var i = 0;
-  for (; i < items.length; i++) {
-    if (items[i].prod == productId) break;
-  }
-  debug('Product ID: ' + productId + ' found on index ' + i);
-  return i;
-};

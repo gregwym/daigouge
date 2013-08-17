@@ -30,6 +30,14 @@ app.get('/new', function(req, res){
   res.render('new');
 });
 
+app.get('/new/:strategy', function(req, res) {
+  var strategy = require('./strategies/' + req.params.strategy);
+  strategy.getProduct(req.query, function(err, product) {
+    if (err) { return res.status(500).json(err); }
+    res.json(product);
+  });
+});
+
 // Create
 app.post('/', function(req, res){
   var product = new models.products(req.body || req.query);
