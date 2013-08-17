@@ -1,7 +1,6 @@
 var html = require('./template'),
     domify = require('domify'),
     query = require('query'),
-    request = require('superagent'),
     CartItemView = require('./cart-item-view'),
     View = require('view');
 
