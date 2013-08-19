@@ -5,6 +5,12 @@
   </div>
 </div>
 <div class="product-preview">
-  <span>{title}</span>
-  <label>Price</label><span>{price}</span>
+  <img data-src="pic_url" width="300">
+  <div class="product-name" data-text="title"></div>
+  <div class="product-url"><a data-href="detail_url" data-text="detail_url"></a></div>
+  <div class="product-pricetag" data-text="priceTag"></div>
+  <div class="product-domestic-shipping" data-text="shipping"></div>
+  <input type="button" on-clock="add-to-cart">
+  <hr />
+  <div class="product-description" data-html="desc"></div>
 </div>

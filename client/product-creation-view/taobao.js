@@ -13,3 +13,16 @@ exports.fetch = function(url, next) {
     next(err, res.body.item);
   });
 };
+
+exports.methods = {
+  priceTag: function() {
+    if (this.item.skus && this.item.skus.sku && this.item.skus.sku.length) {
+      return this.item.skus.sku.map(function(sku) { return sku.price; });
+    }
+    return this.item.price;
+  },
+  shipping: function() {
+    if (this.item.freight_payer == 'seller') { return 0; }
+    return this.item.post_fee;
+  }
+};

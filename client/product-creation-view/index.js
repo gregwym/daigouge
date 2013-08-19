@@ -23,7 +23,7 @@ ProductCreationView.prototype.fetch = function() {
   var self = this;
   var url = value(self.urlText);
   self.strategy.fetch(url, function(err, item) {
-    var previewView = new PreviewView(item);
+    var previewView = new PreviewView(item, self.strategy);
     var oldEl = query('.product-preview', self.el);
     if (oldEl) {
       self.el.replaceChild(previewView.el, oldEl);
