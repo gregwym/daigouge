@@ -27,19 +27,6 @@ app.get('/', function(req, res){
   }));
 });
 
-// New
-app.get('/new', function(req, res){
-  res.render('new');
-});
-
-app.get('/new/:strategy', function(req, res) {
-  var strategy = require('./strategies/' + req.params.strategy);
-  strategy.getProduct(req.query, function(err, product) {
-    if (err) { return res.status(500).json(err); }
-    res.json(product);
-  });
-});
-
 // Create
 app.post('/', function(req, res){
   var product = new models.products(req.body || req.query);
@@ -66,15 +53,6 @@ app.get('/:product', function(req, res){
                            formatResult(req, res, function(product) {
     res.expose(product.toObject({ virtuals: true }), 'locals.product');
     res.render('detail', { product: product });
-  }));
-});
-
-// Edit
-app.get('/:product/edit', function(req, res){
-  models.products.findById(req.params.product,
-                           formatResult(req, res, function(product) {
-    res.expose(product.toObject({ virtuals: true }), 'locals.product');
-    res.render('edit', { product: product });
   }));
 });
 
