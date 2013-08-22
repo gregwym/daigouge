@@ -76,20 +76,19 @@ exports.queryProduct = function(query, next) {
           max = sku.price;
         }
 
+        // Save sku
         product.skus.push({
           props: props,
           price: sku.price
         });
-
-        product.price = {
-          base: min,
-          range: max
-        };
       }
+
+      // Setup price
+      var price = { base: min };
+      if (min !== max) { price.range = max; }
+      product.price = price;
     } else {
-      product.price = {
-        base: item.price
-      };
+      product.price = { base: item.price };
     }
 
     // Shipping
