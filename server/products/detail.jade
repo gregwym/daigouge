@@ -1,17 +1,7 @@
 extends ../views/user
 
 block append content
-  .product
-    .product-image
-      img(src="#{product.imgs[0].url}")
-    .product-detail
-      .product-name= product.name
-      .product-price= product.unitPrice.v
-      .product-actions
-      .product-url
-        a(href="#{product.url}")= product.url
-      .product-description= product.des
-
+  .product-view
   .product-json(style="clear: both;")
     pre= product
 
