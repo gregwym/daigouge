@@ -1,0 +1,18 @@
+{
+  "name": "product-view",
+  "dependencies": {
+    "visionmedia/superagent": "*",
+    "component/selectable": "*",
+    "component/domify": "*",
+    "component/query": "*",
+    "component/value": "*",
+    "component/view": "*"
+  },
+  "scripts": [
+    "index.js",
+    "template.js"
+  ],
+  "local": [
+    "product-add-to-cart"
+  ]
+}
