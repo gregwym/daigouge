@@ -58,13 +58,10 @@ exports.queryProduct = function(query, next) {
 
         // Parse props
         var splitProps = sku.properties_name.split(';');
-        var props = [];
+        var props = {};
         for (var j = 0; j < splitProps.length; j++) {
           var kvPairs = splitProps[j].split(':');
-          props.push({
-            k: kvPairs[2],
-            v: kvPairs[3]
-          });
+          props[kvPairs[2]] = kvPairs[3];
         }
 
         // Find the price range

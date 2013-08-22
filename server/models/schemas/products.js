@@ -2,16 +2,9 @@ var mongoose = require('mongoose');
 
 var currencies = 'CAD$ US$ RMB¥'.split(' ');
 
-var productProperty = mongoose.Schema({
-  k: String,
-  v: String
-}, {
-  _id: false
-});
-
 var productSku = mongoose.Schema({
-  props: [productProperty],
-  price: { type: Number }
+  props: { type: mongoose.Schema.Types.Mixed, require: true },
+  price: { type: Number, require: true }
 }, {
   _id: false
 });
@@ -50,6 +43,36 @@ var products = mongoose.Schema({
     express: Number,
     payer: String
   }
+});
+
+products.methods.findSkuByProps = function(props) {
+  var matcher = function(prev, cur, j) {
+    return prev && props[j].v === sku.props[j].v;
+  };
+
+  for (var i = 0; i < this.skus.length; i++) {
+    var sku = this.skus[i];
+    var match = true;
+    for (var key in props) {
+      match = match && sku.props[key] == props[key];
+    }
+    if (match) { return sku; }
+  }
+  return null;
+};
+
+products.virtual('properties').get(function() {
+  var properties = {};
+  this.skus.forEach(function(sku) {
+    var props = sku.props;
+    for (var key in props) {
+      if (!properties[key]) {
+        properties[key] = {};
+      }
+      properties[key][props[key]] = true;
+    }
+  });
+  return properties;
 });
 
 module.exports = products;
