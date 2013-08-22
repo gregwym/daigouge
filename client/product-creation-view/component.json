@@ -10,8 +10,10 @@
   },
   "scripts": [
     "index.js",
-    "preview-view.js",
     "taobao.js",
     "template.js"
+  ],
+  "local": [
+    "product-view"
   ]
 }
