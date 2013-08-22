@@ -1,24 +1,17 @@
 var mongoose = require('mongoose');
 
-// Price types:
-//  - reg: Regular Price
-//  - sale: On sale price
-//  - org: Original price fetched from the URL
-var priceTypes = 'reg sale org'.split(' ');
 var currencies = 'CAD$ US$ RMB¥'.split(' ');
 
-var productPrice = mongoose.Schema({
-  v: { type: Number, required: true },      // Price value
-  t: {                                      // Price type
-    type: String,
-    enum: priceTypes,
-    default: priceTypes[0],
-    required: true
-  },
-  cur: {                                    // Price currency (optional)
-    type: String,
-    enum: currencies
-  }
+var productProperty = mongoose.Schema({
+  k: String,
+  v: String
+}, {
+  _id: false
+});
+
+var productSku = mongoose.Schema({
+  props: [productProperty],
+  price: { type: Number }
 }, {
   _id: false
 });
@@ -30,10 +23,13 @@ var productImage = mongoose.Schema({
   },
   jpg: Buffer,
   png: Buffer
+}, {
+  _id: false
 });
 
 var products = mongoose.Schema({
   name: { type: String, required: true },   // Product name
+  lm: { type: Date, default: Date.now },    // Last modified date
   url: {                                    // Product source URL
     type: String,
     match: /^https{0,1}:\/\/.+/,
@@ -43,19 +39,17 @@ var products = mongoose.Schema({
   des: {                                    // Product description
     type: String
   },
-  prices: [productPrice]                    // Associated prices
-});
-
-products.methods.price = function(type) {
-  for (var i = 0; i < this.prices.length; i++) {
-    var price = this.prices[i];
-    if (price.t === type) { return price; }
+  price: {
+    base: Number,
+    range: Number
+  },
+  skus: [productSku],
+  ship: {
+    post: Number,
+    ems: Number,
+    express: Number,
+    payer: String
   }
-  return null;
-};
-
-products.virtual('unitPrice').get(function() {
-  return this.price('sale') || this.price('reg');
 });
 
 module.exports = products;
