@@ -2,7 +2,7 @@ var utils = require('utils'),
     debug = require('debug')('taobao'),
     models = require('models');
 
-exports.getProduct = function(query, next) {
+exports.queryProduct = function(query, next) {
   var fields = [
     'detail_url',
     'wap_detail_url',
@@ -31,5 +31,75 @@ exports.getProduct = function(query, next) {
     num_iid: query.id
   };
 
-  utils.top.topClient.query('taobao.item.get', opt, next);
+  utils.top.topClient.query('taobao.item.get', opt, function(err, res) {
+    var item = res.item;
+    var product = {
+      name: item.title,
+      url: item.detail_url,
+      des: item.desc,
+      imgs: [],
+      skus: []
+    };
+
+    // Format imgs data
+    if (item.item_imgs) {
+      for (var i = 0; i < item.item_imgs.item_img.length; i++) {
+        product.imgs.push({
+          url: item.item_imgs.item_img[i].url
+        });
+      }
+    }
+
+    // Format skus data
+    if (item.skus) {
+      var min = 0, max = 0;
+      for (var i = 0; i < item.skus.sku.length; i++) {
+        var sku = item.skus.sku[i];
+
+        // Parse props
+        var splitProps = sku.properties_name.split(';');
+        var props = [];
+        for (var j = 0; j < splitProps.length; j++) {
+          var kvPairs = splitProps[j].split(':');
+          props.push({
+            k: kvPairs[2],
+            v: kvPairs[3]
+          });
+        }
+
+        // Find the price range
+        if (i === 0) {
+          min = max = sku.price;
+        } else if (sku.price < min) {
+          min = sku.price;
+        } else if (sku.price > max) {
+          max = sku.price;
+        }
+
+        product.skus.push({
+          props: props,
+          price: sku.price
+        });
+
+        product.price = {
+          base: min,
+          range: max
+        };
+      }
+    } else {
+      product.price = {
+        base: item.price
+      };
+    }
+
+    // Shipping
+    product.ship = {
+      payer: item.freight_payer
+    };
+    if (item.post_fee) { product.ship.post = item.post_fee; }
+    if (item.ems_fee) { product.ship.ems = item.ems_fee; }
+    if (item.express_fee) { product.ship.express = item.express_fee; }
+
+    next(null, product);
+  });
 };

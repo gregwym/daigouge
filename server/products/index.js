@@ -1,5 +1,6 @@
 var express = require('express'),
     expose = require('express-expose'),
+    strategies = require('./strategies'),
     models = require('models');
 var app = module.exports = express();
 
@@ -8,6 +9,7 @@ app.set('views', __dirname);
 var formatResult = function(req, res, html) {
   return function(err, result) {
     if (err) { return res.status(500).json(err); }
+    if (result === null) { return res.status(404).send(); }
     return res.format({
       html: function() { html(result); },
       json: function() { res.json(result); }
@@ -44,6 +46,18 @@ app.post('/', function(req, res){
   product.save(formatResult(req, res, function(product) {
     res.redirect(product.id.toString());
   }));
+});
+
+app.post('/:strategy', function(req, res){
+  var strategy = strategies[req.params.strategy];
+  if (!strategy) { return res.status(404).send(); }
+
+  strategy.queryProduct(req.body, function(err, result) {
+    var product = new models.products(result);
+    product.save(formatResult(req, res, function(product) {
+      res.redirect(product.id.toString());
+    }));
+  });
 });
 
 // Show
