@@ -14,7 +14,7 @@ function ProductView(product) {
   View.call(this, product, el);
 
   var actionsEl = query('.product-actions', this.el);
-  var addToCart = new AddToCart(product);
+  var addToCart = new AddToCart(this);
   actionsEl.appendChild(addToCart.el);
 }
 
@@ -33,4 +33,10 @@ ProductView.prototype.imageUrl = function() {
   } else {
     return '';
   }
+};
+
+ProductView.prototype.getAddToCartItem = function() {
+  return {
+    prod: this.product.id,
+  };
 };

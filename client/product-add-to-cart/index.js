@@ -7,12 +7,12 @@ var domify = require('domify'),
 
 module.exports = AddToCart;
 
-function AddToCart(product) {
-  if (!product) {
-    throw new Error('Missing product information.');
+function AddToCart(delegate) {
+  if (!delegate && !delegate.getAddToCartItem) {
+    throw new Error('AddToCart has to work with a delegate.');
   }
 
-  this.product = product;
+  this.delegate = delegate;
   this.conf = {
     submitText: '加入购物车'
   };
@@ -26,18 +26,15 @@ function AddToCart(product) {
 
 AddToCart.prototype.submit = function() {
   var submitButton = this.submitButton;
-  var product = this.product;
-  var quantity = this.quantitySelector.value();
+  var item = this.delegate.getAddToCartItem();
+  item.q = this.quantitySelector.value();
 
   // Submit the request
   submitButton.setAttribute('disabled');
-  request.post('/cart').send({
-    prod: product.id,
-    q: quantity
-  }).end(function(err, result) {
+  request.post('/cart').send(item).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); }
     else {
-      console.log(product.name + ' * ' + quantity + ' added to the cart.');
+      console.log(JSON.stringify(item) + ' added to the cart.');
     }
     submitButton.removeAttribute('disabled');
   });
