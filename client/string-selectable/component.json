@@ -1,0 +1,11 @@
+{
+  "name": "string-selectable",
+  "dependencies": {
+    "component/selectable": "*",
+    "component/emitter": "*",
+    "component/domify": "*"
+  },
+  "scripts": [
+    "index.js"
+  ]
+}
