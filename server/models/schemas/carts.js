@@ -3,17 +3,12 @@ var mongoose = require('mongoose'),
     Types = mongoose.Schema.Types;
 
 // Schema definition
-var requirement = mongoose.Schema({
-  k: { type: String, required: true },
-  v: { type: String, required: true }
-}, {
-  _id: false
-});
 
 var cartItem = mongoose.Schema({
   prod: { type: Types.ObjectId, ref: 'products', required: true },
-  q: { type: Number, required: true },             // Quantity
-  req: [requirement]
+  props: { type: mongoose.Schema.Types.Mixed, require: true },
+  q: { type: Number, required: true, min: 1 },     // Quantity
+  up: { type: Number, required: true }             // Unit Price
 }, {
   _id: false
 });

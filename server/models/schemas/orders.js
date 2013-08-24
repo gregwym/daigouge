@@ -16,18 +16,11 @@ var mongoose = require('mongoose'),
 //  - refu: Order refunded
 var orderStatus = 'recv pfg proc doms grec pfs ints arrv deli comp canc refu'.split(' ');
 
-var requirement = mongoose.Schema({
-  k: { type: String, required: true },
-  v: { type: String, required: true }
-}, {
-  _id: false
-});
-
 var orderItem = mongoose.Schema({
   prod: { type: Types.ObjectId, ref: 'products', required: true },
+  props: { type: mongoose.Schema.Types.Mixed, require: true },
   up: { type: Number, required: true },             // Unit price
-  q: { type: Number, required: true },              // Quantity
-  req: [requirement]
+  q: { type: Number, required: true, min: 1 }       // Quantity
 }, {
   _id: false
 });
@@ -60,7 +53,6 @@ var orderHistory = mongoose.Schema({
 var orders = mongoose.Schema({
   user: { type: Types.ObjectId, ref: 'users', required: true },
   stat: { type: String, enum: orderStatus, default: 'recv', required: true },
-  req: [requirement],
   items: [orderItem],
   fees: [orderFees],
   trans: [orderTransaction],
