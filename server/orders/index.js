@@ -58,45 +58,29 @@ app.post('/', utils.middlewares.cart, function(req, res) {
     }
     return res.redirect('/cart');
   }
-  // Populate products information
-  utils.populators.products(req.cart.items, function(err, items) {
+
+  // Create order history
+  var orderHistory = [{
+    act: 'c',
+    u: req.user.id
+  }];
+
+  // TODO: Address, special requirements, etc...
+
+  // Create new order
+  var order = new models.orders({
+    user: req.user.id,
+    items: req.cart.items,
+    hist: orderHistory
+  });
+
+  // Save it
+  order.save(function(err, order){
     if (err) { return res.status(500).json(err); }
-
-    // Create order items
-    var orderItems = [];
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
-      orderItems.push({
-        prod: item.prod.id,
-        up: item.prod.unitPrice.v,
-        q: item.q,
-        req: item.req
-      });
-    }
-
-    // Create order history
-    var orderHistory = [{
-      act: 'c',
-      u: req.user.id
-    }];
-
-    // TODO: Address, special requirements, etc...
-
-    // Create new order
-    var order = new models.orders({
-      user: req.user.id,
-      items: orderItems,
-      hist: orderHistory
+    req.cart.remove(function(err) {
+      // Do nothing
     });
-
-    // Save it
-    order.save(function(err, order){
-      if (err) { return res.status(500).json(err); }
-      req.cart.remove(function(err) {
-        // Do nothing
-      });
-      return res.redirect(order.id.toString());
-    });
+    return res.redirect(order.id.toString());
   });
 });
 

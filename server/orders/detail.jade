@@ -17,9 +17,13 @@ block append content
       ul.order-items
         for item in order.items
           li.order-item
-            a(href='/products/#{item.prod.id}').product-name #{item.prod.name}
-            label.item-quantity Quantity: #{item.q},
-            label.item-unit-price Price: #{item.up}
+            .product-name
+              a(href='/products/#{item.prod.id}')= item.prod.name
+            .properties
+              for prop in item.props
+                label.property= prop
+            .quantity Quantity: #{item.q}
+            .unit-price Price: #{item.up}
       h3 Order History
       ul.order-histories
         for hist in order.hist

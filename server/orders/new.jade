@@ -7,11 +7,11 @@ block append content
         ul.cart-list
           - var total = 0
           for item in cart
-            - total += item.prod.unitPrice.v * item.q
+            - total += item.up * item.q
             li.cart-item
               a(href="/products/#{item.prod.id}")
                 label.product-name #{item.prod.name}
-              label.product-unit-price $#{item.prod.unitPrice.v}
+              label.product-unit-price $#{item.up}
               label *
               label.quantity #{item.q}
         div.cart-summary
