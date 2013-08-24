@@ -58,7 +58,7 @@ products.methods.findSkuByProps = function(props) {
 };
 
 products.methods.priceForProps = function(props) {
-  if (this.skus.length === 0) { return this.price; }
+  if (this.skus.length === 0) { return this.price.base; }
   var sku = this.findSkuByProps(props);
   if (sku === null) {
     throw new Error('Unknown properties: ' + JSON.stringify(props));
