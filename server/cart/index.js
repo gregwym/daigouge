@@ -28,9 +28,16 @@ app.post('/', function(req, res) {
   var item = req.body;
   debug('Adding ' + JSON.stringify(item) + ' to cart.');
 
-  req.cart.upsertItem(item, function(err, cart) {
+  // Find the product and fetch price
+  models.products.findById(item.prod, function(err, product) {
     if (err) { return res.status(500).json(err); }
-    res.status(201).json(cart.items);
+    item.up = product.priceForProps(item.props);
+
+    // Upsert new item
+    req.cart.upsertItem(item, function(err, cart) {
+      if (err) { return res.status(500).json(err); }
+      res.status(201).json(cart.items);
+    });
   });
 });
 
