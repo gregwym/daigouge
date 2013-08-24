@@ -33,7 +33,7 @@ var products = mongoose.Schema({
     type: String
   },
   price: {
-    base: Number,
+    base: { type: Number, required: true },
     range: Number
   },
   skus: [productSku],
@@ -55,6 +55,15 @@ products.methods.findSkuByProps = function(props) {
     if (match) { return sku; }
   }
   return null;
+};
+
+products.methods.priceForProps = function(props) {
+  if (this.skus.length === 0) { return this.price; }
+  var sku = this.findSkuByProps(props);
+  if (sku === null) {
+    throw new Error('Unknown properties: ' + JSON.stringify(props));
+  }
+  return sku.price;
 };
 
 products.virtual('properties').get(function() {
