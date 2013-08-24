@@ -1,9 +1,9 @@
 var domify = require('domify'),
     Choosable = require('choosable');
 
-module.exports = StringSelectable;
+module.exports = StringsChoosable;
 
-function StringSelectable (strings) {
+function StringsChoosable (strings) {
   var self = this;
   var el = this.el = domify('<ul></ul>');
   for (var i = 0; i < strings.length; i++) {
@@ -17,4 +17,4 @@ function StringSelectable (strings) {
   });
 }
 
-StringSelectable.prototype = Object.create(Choosable.prototype);
+StringsChoosable.prototype = Object.create(Choosable.prototype);

@@ -1,5 +1,5 @@
 {
-  "name": "string-selectable",
+  "name": "strings-choosable",
   "dependencies": {
     "gregwym/choosable": "*",
     "component/emitter": "*",
