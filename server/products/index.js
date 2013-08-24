@@ -40,6 +40,7 @@ app.post('/:strategy', function(req, res){
   if (!strategy) { return res.status(404).send(); }
 
   strategy.queryProduct(req.body, function(err, result) {
+    if (err) { return res.status(500).json(err); }
     var product = new models.products(result);
     product.save(formatResult(req, res, function(product) {
       res.redirect(product.id.toString());

@@ -32,6 +32,8 @@ exports.queryProduct = function(query, next) {
   };
 
   utils.top.topClient.query('taobao.item.get', opt, function(err, res) {
+    if (err) { return next(err); }
+
     var item = res.item;
     var product = {
       name: item.title,
