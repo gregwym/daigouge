@@ -63,8 +63,10 @@ function ProductView(product) {
   }
 
   // Construct add-to-cart component
-  var addToCart = new AddToCart(this);
+  var addToCart = this.addToCart = new AddToCart(this);
   actionsEl.appendChild(addToCart.el);
+
+  addToCart.enable(!properties);
 }
 
 ProductView.prototype.price = function() {
@@ -87,6 +89,7 @@ ProductView.prototype.imageUrl = function() {
 ProductView.prototype.getAddToCartItem = function() {
   return {
     prod: this.product.id,
+    props: this.propsSelection
   };
 };
 
@@ -98,4 +101,5 @@ ProductView.prototype.updatePropertySelection = function(property, value) {
 
   console.log('Found matched sku: ' + JSON.stringify(sku));
   this.priceEl.textContent = sku.price;
+  this.addToCart.enable(true);
 };
