@@ -32,7 +32,10 @@ exports.queryProduct = function(query, next) {
   };
 
   utils.top.topClient.query('taobao.item.get', opt, function(err, res) {
-    if (err) { return next(err); }
+    if (err) {
+      console.log('Fail to get taobao item: ' + JSON.stringify(err));
+      return next(err);
+    }
 
     var item = res.item;
     var product = {
