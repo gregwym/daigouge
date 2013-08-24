@@ -46,14 +46,10 @@ var products = mongoose.Schema({
 });
 
 products.methods.findSkuByProps = function(props) {
-  var matcher = function(prev, cur, j) {
-    return prev && props[j].v === sku.props[j].v;
-  };
-
   for (var i = 0; i < this.skus.length; i++) {
     var sku = this.skus[i];
     var match = true;
-    for (var key in props) {
+    for (var key in sku.props) {
       match = match && sku.props[key] == props[key];
     }
     if (match) { return sku; }

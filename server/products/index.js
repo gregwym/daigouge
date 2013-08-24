@@ -51,7 +51,9 @@ app.post('/:strategy', function(req, res){
 app.get('/:product', function(req, res){
   models.products.findById(req.params.product,
                            formatResult(req, res, function(product) {
-    res.expose(product.toObject({ virtuals: true }), 'locals.product');
+    var exposingProduct = product.toObject({ virtuals: true });
+    exposingProduct.findSkuByProps = product.findSkuByProps;
+    res.expose(exposingProduct, 'locals.product');
     res.render('detail', { product: product });
   }));
 });
