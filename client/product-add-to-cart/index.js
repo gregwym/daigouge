@@ -39,3 +39,16 @@ AddToCart.prototype.submit = function() {
     submitButton.removeAttribute('disabled');
   });
 };
+
+AddToCart.prototype.enable = function(value) {
+  var els = query.all('input', this.el);
+  if (value) {
+    for (var i = 0; i < els.length; i++) {
+      els[i].removeAttribute('disabled');
+    }
+  } else {
+    for (var i = 0; i < els.length; i++) {
+      els[i].setAttribute('disabled');
+    }
+  }
+};
