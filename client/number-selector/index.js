@@ -3,6 +3,7 @@ var domify = require('domify'),
     query = require('query'),
     value = require('value'),
     html = require('./template'),
+    Emitter = require('emitter'),
     View = require('view');
 
 function isNumber(n) {
@@ -11,7 +12,7 @@ function isNumber(n) {
 
 module.exports = Selector;
 
-function Selector(options, onChange) {
+function Selector(options) {
   this.conf = {
     dec: options.dec || '-',
     inc: options.dec || '+',
@@ -24,11 +25,12 @@ function Selector(options, onChange) {
   if (isNumber(options.min)) { this.conf.min = options.min; }
   if (isNumber(options.max)) { this.conf.max = options.max; }
   if (isNumber(options.step)) { this.conf.step = options.step; }
-  this.onChange = onChange || null;
 
   var el = domify(html);
   View.call(this, this.conf, el);
 }
+
+Emitter(Selector.prototype);
 
 Selector.prototype.value = function(val) {
   var el = query('.number-value', this.el);
@@ -52,20 +54,18 @@ Selector.prototype.decrease = function() {
 };
 
 Selector.prototype.change = function() {
-  if (this.onChange) {
-    this.onChange(this.value());
-  }
+  this.emit('change', { value: this.value() });
 };
 
 Selector.prototype.enable = function(value) {
-  var el = query.all('input', this.el);
+  var els = query.all('input', this.el);
   if (value) {
-    for (var i = 0; i < el.length; i++) {
-      el[i].removeAttribute('disabled');
+    for (var i = 0; i < els.length; i++) {
+      els[i].removeAttribute('disabled');
     }
   } else {
-    for (var i = 0; i < el.length; i++) {
-      el[i].setAttribute('disabled');
+    for (var i = 0; i < els.length; i++) {
+      els[i].setAttribute('disabled');
     }
   }
 };

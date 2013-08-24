@@ -22,14 +22,15 @@ function CartItemView(item) {
   this.quantitySelector = new NumberSelector({
     min: 1,
     init: item.q
-  }, function(value) {
+  });
+  this.quantitySelector.on('change', function(value) {
     return self.changeQuantity(value);
   });
   this.el.replaceChild(this.quantitySelector.el, position);
 }
 
 CartItemView.prototype.priceTag = function() {
-  return (this.item.prod.unitPrice.cur || '$') + this.item.prod.unitPrice.v;
+  return this.item.up;
 };
 
 CartItemView.prototype.delete = function() {
