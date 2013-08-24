@@ -19,9 +19,10 @@ block append content
           li.order-item
             .product-name
               a(href='/products/#{item.prod.id}')= item.prod.name
-            .properties
-              for prop in item.props
-                label.property= prop
+            if item.props
+              .properties
+                for prop in item.props
+                  label.property= prop
             .quantity Quantity: #{item.q}
             .unit-price Price: #{item.up}
       h3 Order History
