@@ -12,7 +12,7 @@ var formatResult = function(req, res, html) {
     if (result === null) { return res.status(404).send(); }
     return res.format({
       html: function() { html(result); },
-      json: function() { res.json(result); }
+      json: function() { res.json(result.toObject({ virtuals: true })); }
     });
   };
 };
@@ -52,9 +52,7 @@ app.post('/:strategy', function(req, res){
 app.get('/:product', function(req, res){
   models.products.findById(req.params.product,
                            formatResult(req, res, function(product) {
-    var exposingProduct = product.toObject({ virtuals: true });
-    exposingProduct.findSkuByProps = product.findSkuByProps;
-    res.expose(exposingProduct, 'locals.product');
+    res.expose(product.toObject({ virtuals: true }), 'locals.product');
     res.render('detail', { product: product });
   }));
 });
