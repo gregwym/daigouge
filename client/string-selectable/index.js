@@ -1,6 +1,5 @@
 var domify = require('domify'),
-    Emitter = require('emitter'),
-    Selectable = require('selectable');
+    Choosable = require('choosable');
 
 module.exports = StringSelectable;
 
@@ -8,14 +7,14 @@ function StringSelectable (strings) {
   var self = this;
   var el = this.el = domify('<ul></ul>');
   for (var i = 0; i < strings.length; i++) {
-    el.appendChild(domify(['<li data-name="', strings[i], '">', strings[i], '</li>'].join('')));
+    el.appendChild(domify(['<li data-value="', strings[i], '">', strings[i], '</li>'].join('')));
   }
-  console.log(el);
-  var selection = new Selectable('li', el);
+  Choosable.call(this, 'li', el);
 
-  selection.on('change', function(e) {
-    self.emit('change', e);
+  this.on('change', function(e) {
+    var el = e.selected;
+    self.emit('value-change', el.getAttribute('data-value'), el);
   });
 }
 
-Emitter(StringSelectable.prototype);
+StringSelectable.prototype = Object.create(Choosable.prototype);

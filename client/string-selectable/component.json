@@ -1,7 +1,7 @@
 {
   "name": "string-selectable",
   "dependencies": {
-    "component/selectable": "*",
+    "gregwym/choosable": "*",
     "component/emitter": "*",
     "component/domify": "*"
   },
