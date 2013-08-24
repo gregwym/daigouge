@@ -8,8 +8,21 @@ var html = require('./template'),
 
 module.exports = ProductView;
 
+var findSkuByProps = function(props) {
+  for (var i = 0; i < this.skus.length; i++) {
+    var sku = this.skus[i];
+    var match = true;
+    for (var key in sku.props) {
+      match = match && sku.props[key] == props[key];
+    }
+    if (match) { return sku; }
+  }
+  return null;
+};
+
 function ProductView(product) {
   this.product = product;
+  this.product.findSkuByProps = findSkuByProps;
   this.propsSelection = {};
 
   // Construct view

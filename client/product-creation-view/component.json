@@ -2,7 +2,6 @@
   "name": "product-creation-view",
   "dependencies": {
     "visionmedia/superagent": "*",
-    "component/selectable": "*",
     "component/domify": "*",
     "component/query": "*",
     "component/value": "*",
