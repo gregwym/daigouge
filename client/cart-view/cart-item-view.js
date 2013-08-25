@@ -23,8 +23,8 @@ function CartItemView(item) {
     min: 1,
     init: item.q
   });
-  this.quantitySelector.on('change', function(value) {
-    return self.changeQuantity(value);
+  this.quantitySelector.on('change', function(e) {
+    return self.changeQuantity(e.value);
   });
   this.el.replaceChild(this.quantitySelector.el, position);
 }
