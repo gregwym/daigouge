@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 
 var cartItem = mongoose.Schema({
   prod: { type: Types.ObjectId, ref: 'products', required: true },
-  props: { type: mongoose.Schema.Types.Mixed, require: true },
+  props: { type: mongoose.Schema.Types.Mixed },
   q: { type: Number, required: true, min: 1 },     // Quantity
   up: { type: Number, required: true }             // Unit Price
 }, {

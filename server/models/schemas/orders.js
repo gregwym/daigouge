@@ -18,7 +18,7 @@ var orderStatus = 'recv pfg proc doms grec pfs ints arrv deli comp canc refu'.sp
 
 var orderItem = mongoose.Schema({
   prod: { type: Types.ObjectId, ref: 'products', required: true },
-  props: { type: mongoose.Schema.Types.Mixed, require: true },
+  props: { type: mongoose.Schema.Types.Mixed },
   up: { type: Number, required: true },             // Unit price
   q: { type: Number, required: true, min: 1 }       // Quantity
 }, {
