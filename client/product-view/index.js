@@ -87,10 +87,13 @@ ProductView.prototype.imageUrl = function() {
 };
 
 ProductView.prototype.getAddToCartItem = function() {
-  return {
+  var item = {
     prod: this.product.id,
-    props: this.propsSelection
   };
+  if (this.product.skus && this.product.skus.length) {
+    item.props = this.propsSelection;
+  }
+  return item;
 };
 
 ProductView.prototype.updatePropertySelection = function(property, value) {

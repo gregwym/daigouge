@@ -34,11 +34,18 @@ CartItemView.prototype.priceTag = function() {
 };
 
 CartItemView.prototype.delete = function() {
-  var self = this;
   console.log('Deleteing ' + this.item.prod.id);
-  request.post('/cart/' + this.item.prod.id).send({
-    _method: 'delete'
-  }).end(function(err, result) {
+
+  var self = this;
+  var data = {
+    _method: 'delete',
+    item: {
+      prod: this.item.prod.id,
+      props: this.item.props
+    }
+  };
+
+  request.post('/cart').send(data).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); return; }
     self.el.parentNode.removeChild(self.el);
   });
@@ -48,15 +55,21 @@ CartItemView.prototype.changeQuantity = function(value) {
   if (!value) {
     throw new Error('Cannot have zero or undefined value');
   }
-  var self = this;
-  console.log('Changing ' + this.item.prod.id + ' quantity to ' + value);
-
   this.quantitySelector.enable(false);
-  request.post('/cart/' + this.item.prod.id).send({
-    _method: 'put',
-    quantity: value
-  }).end(function(err, result) {
+
+  var self = this;
+  var data = {
+    item: {
+      prod: this.item.prod.id,
+      props: this.item.props,
+      q: value
+    }
+  };
+
+  console.log('Changing ' + JSON.stringify(data.item) + ' quantity to ' + value);
+  request.post('/cart').send(data).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); return; }
+    self.item.q = value;
     self.quantitySelector.enable(true);
   });
 };

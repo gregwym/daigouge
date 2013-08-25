@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     debug = require('debug')('cart'),
+    _ = require('underscore'),
     Types = mongoose.Schema.Types;
 
 // Schema definition
@@ -24,34 +25,29 @@ var carts = mongoose.Schema({
 });
 
 // Methods
-// TODO: Same product with different requirement can exists simultaneously
-carts.methods.indexOfProd = function(prod) {
-  var i = 0;
-  for (; i < this.items.length; i++) {
-    if (this.items[i].prod == prod) break;
-  }
-  return i;
-};
-
-carts.methods.findItemByProd = function(prod) {
+carts.methods.indexOfItem = function(item) {
   for (var i = 0; i < this.items.length; i++) {
-    if (this.items[i].prod == prod) return this.items[i];
+    if (this.items[i].prod == item.prod) {
+      if (this.items[i].props) {
+        if (_.isEqual(this.items[i].props, item.props)) { return i; }
+      } else { return i; }
+    }
   }
-  return null;
+  return this.items.length;
 };
 
 carts.methods.upsertItem = function(item, next) {
-  // Searching for existing prod index
-  var i = this.indexOfProd(item.prod);
+  // Searching for existing item index
+  var i = this.indexOfItem(item);
   // Upsert item into array
   this.items.set(i, item);
   this.lm = Date.now();
   this.save(next);
 };
 
-carts.methods.removeProd = function(prod, next) {
-  // Searching for existing prod index
-  var i = this.indexOfProd(prod);
+carts.methods.removeItem = function(item, next) {
+  // Searching for existing item index
+  var i = this.indexOfItem(item);
   if (i == this.items.length) {
     var err = new Error('Item not found');
     err.type = 'notfound';

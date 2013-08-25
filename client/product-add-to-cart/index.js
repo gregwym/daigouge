@@ -26,15 +26,17 @@ function AddToCart(delegate) {
 
 AddToCart.prototype.submit = function() {
   var submitButton = this.submitButton;
-  var item = this.delegate.getAddToCartItem();
-  item.q = this.quantitySelector.value();
+  var data = {
+    item: this.delegate.getAddToCartItem()
+  };
+  data.item.q = this.quantitySelector.value();
 
   // Submit the request
   submitButton.setAttribute('disabled');
-  request.post('/cart').send(item).end(function(err, result) {
+  request.post('/cart').send(data).end(function(err, result) {
     if (err) { alert(JSON.stringify(err)); }
     else {
-      console.log(JSON.stringify(item) + ' added to the cart.');
+      console.log(JSON.stringify(data.item) + ' added to the cart.');
     }
     submitButton.removeAttribute('disabled');
   });
